@@ -30,9 +30,9 @@ def get_ftp_rm_schedule(tasks):
         schedules.append([])
     last_task_index =0
     for i in range(lcm_tasks+1):
-        print(f"i is {i}")
+        #print(f"i is {i}")
         for task_index in range(len(tasks)):
-            print(f"task : {task_index} job { str(schedules[task_index][-1]) if schedules[task_index] else 0 }")
+            #print(f"task : {task_index} job { str(schedules[task_index][-1]) if schedules[task_index] else 0 }")
             if (not schedules[task_index]):
                 schedules[task_index].append(Job(i,1))
                 last_task_index = task_index
@@ -75,6 +75,15 @@ def test_ftp_rm_schedule():
     for task in tasks:
         print(task)
 
+def get_first_example_ftp_rm_schedule():
+    t1 = Task(0, 4, 20, 20)
+    t2 = Task(0, 2, 10, 10)
+    t3 = Task(0, 3, 5, 5)
+    tasks = [t1, t2, t3]
+    ftp_rm_schedule(tasks)
+
+    return get_ftp_rm_schedule(tasks)
+
 def test_ftp_rm_schedule_full():
     t1 = Task(0, 4 , 20, 20)
     t2 = Task(0, 2 , 10, 10)
@@ -90,4 +99,4 @@ def test_ftp_rm_schedule_full():
             print(str(job))
         #print(str(schedule))
 #test_lcm_tasks_periods()
-test_ftp_rm_schedule_full()
+#test_ftp_rm_schedule_full()
