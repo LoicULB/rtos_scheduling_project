@@ -17,9 +17,9 @@ def is_job_ended(job,task):
     return job.nb_cpu_units >= task.wcet
 def is_job_waiting(job, task, instant):
 
-    range_period_start = job.start/task.period
-    range_period_instant = instant / task.period
-    return  not (range_period_instant == range_period_instant)
+    range_period_start = job.start//task.period
+    range_period_instant = instant // task.period
+    return  not (range_period_start == range_period_instant)
     #return job.start 
 def get_ftp_rm_schedule(tasks):
     lcm_tasks = get_lcm_tasks_period(tasks)
@@ -29,23 +29,27 @@ def get_ftp_rm_schedule(tasks):
     for i in range(len(tasks)):
         schedules.append([])
     last_task_index =0
-    for i in range(lcm_tasks):
+    for i in range(lcm_tasks+1):
         print(f"i is {i}")
         for task_index in range(len(tasks)):
+            print(f"task : {task_index} job { str(schedules[task_index][-1]) if schedules[task_index] else 0 }")
             if (not schedules[task_index]):
                 schedules[task_index].append(Job(i,1))
                 last_task_index = task_index
                 break
             job = schedules[task_index][-1]
-            if(task_index != last_task_index and is_job_waiting(job,tasks[task_index], i)):
 
-                if (job.nb_cpu_units < tasks[task_index].wcet):
-                    if (task_index != last_task_index):
-                        schedules[task_index].append(Job(i, 1))
-                    else: 
-                        job.nb_cpu_units +=1
-                    last_task_index = task_index
-                    break
+            bool1 = task_index != last_task_index
+            bool2 = is_job_waiting(job,tasks[task_index], i)
+            if(bool1 and bool2):
+
+                #if (job.nb_cpu_units < tasks[task_index].wcet):
+                if (task_index != last_task_index ):
+                    schedules[task_index].append(Job(i, 1))
+                elif (job.nb_cpu_units < tasks[task_index].wcet): 
+                    job.nb_cpu_units +=1
+                last_task_index = task_index
+                break
             if(task_index == last_task_index and not is_job_ended(job, tasks[task_index])):
                 job.nb_cpu_units +=1
                 last_task_index = task_index
