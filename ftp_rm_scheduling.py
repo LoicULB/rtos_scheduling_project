@@ -4,24 +4,62 @@ from numpy import lcm
 from task import Task
 from scheduling import Job
 import numpy as np
+
 def ftp_rm_schedule(tasks):
+    """Sort the tasks according to their period
+    (RM Monotonic assignement)
+
+    Args:
+        tasks (list): a list of tasks
+    """
     tasks.sort(key=lambda x: x.period)
 
+
 def get_lcm_tasks_period(tasks):
+    """Get the least common multiple of the tasks periods
+
+    Args:
+        tasks (list): the list of tasks
+
+    Returns:
+        int: the least common multiple of the tasks periods
+    """
     periods = []
     for task in tasks:
         periods.append(task.period)
     return (lcm.reduce(periods))
 #tasks is already sorted
+# TODO add to JOB class
 def is_job_ended(job,task):
+    """Checks wheter or not the job has consume all of it's computation time
+
+    Args:
+        job (Job): the job
+        task (Task): the task of the job
+
+    Returns:
+        boolean: true if the job has ended
+    """
     return job.nb_cpu_units >= task.wcet
+
+# TODO documentation
 def is_job_waiting(job, task, instant):
 
     range_period_start = job.start//task.period
     range_period_instant = instant // task.period
     return  not (range_period_start == range_period_instant)
-    #return job.start 
+    #return job.start
+
+
 def get_ftp_rm_schedule(tasks):
+    """Compute the scheduling a the given list of tasks
+
+    Args:
+        tasks (list): a priority sorted list of tasks to schedule
+
+    Returns:
+        list of list: the scheduling of the tasks input
+    """
     lcm_tasks = get_lcm_tasks_period(tasks)
     
     #for i in range(len(tasks)):
@@ -56,7 +94,7 @@ def get_ftp_rm_schedule(tasks):
                 break
     return schedules
 
-
+# TODO put to test
 def test_lcm_tasks_periods():
     t1 = Task(0, 10 , 80, 80)
     t2 = Task(0, 10 , 10, 10)
@@ -64,7 +102,7 @@ def test_lcm_tasks_periods():
     tasks = [t1, t2, t3]
     print(get_lcm_tasks_period(tasks))
 
-
+# TODO put to tests
 def test_ftp_rm_schedule():
     tasks = generate_random_tasks(5)
     for task in tasks:
