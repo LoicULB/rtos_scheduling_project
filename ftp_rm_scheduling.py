@@ -1,8 +1,8 @@
 
-from task_generator import generate_random_tasks
+from .task_generator import generate_random_tasks
 from numpy import lcm
-from task import Task
-from scheduling import Job
+from .task import Task
+from .scheduling import Job
 import numpy as np
 def ftp_rm_schedule(tasks):
     tasks.sort(key=lambda x: x.period)
