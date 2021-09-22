@@ -1,4 +1,4 @@
-from .task import Task
+from task import Task
 from random import randint
 from random import randrange
 #a task generator should generate tasks where wcte is below the deadline
