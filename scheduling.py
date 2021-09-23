@@ -25,6 +25,7 @@ class Job:
         self.job_executions = job_executions
         self.start = start
         self.deadline = deadline
+        #should make the cpu_units variable private
         self.cpu_units = cpu_units
         self.cpu_need = cpu_need    
     
@@ -44,7 +45,9 @@ class Job:
         Args:
             nb_cpu_units (int, optional): the number of cpu units to add. Defaults to 1.
         """
-        self.cpu_units += 1
+        #should put execption if there is no job_execution
+        #exception if cpu units will become sumperior to cpu need
+        self.cpu_units += nb_cpu_units
         self.job_executions[-1].cpu_units+=nb_cpu_units
     
     def start_new_job_execution(self, start):
@@ -54,6 +57,7 @@ class Job:
             start (int): the time at which the JobExecution will start
         """
         self.job_executions.append(JobExecution(start=start))
+        self.cpu_units += 1
 
     def get_end_of_job(self):
         """Get the time of end of execution of the job
@@ -85,6 +89,14 @@ class TaskScheduling:
             start (int): the time at which the job will start
         """
         self.jobs.append(Job(start=start, cpu_need=self.task.wcet))
+
+    def is_task_waiting(self, instant):
+        job = self.jobs[-1]
+        range_period_start = job.start//self.task.period
+        range_period_instant = instant // self.task.period
+        return  not (range_period_start == range_period_instant)
+
+
 class SystemScheduling:
     """
     Class representing a a bounded scheduling of a set of tasks
@@ -102,13 +114,7 @@ def get_first_course_example_schedule():
 
 """
 class Job:
-    """
-    """
-    Class representing a job
-
-    A job is defined by a start (offset) and the number of cpu units it has received yet
-    """
-    """
+    
     def __init__(self, start=0, nb_cpu_units=0):
         self.start = start
         self.nb_cpu_units = nb_cpu_units
