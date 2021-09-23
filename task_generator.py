@@ -31,7 +31,9 @@ def generate_random_tasks(nb_tasks):
         tasks.append(generate_random_task())
     return tasks
 
+# TODO make a test
 def test_1():
+    # TODO second todo
     #print(generate_random_tasks(10))
     tasks = generate_random_tasks(10)
     for i in tasks:

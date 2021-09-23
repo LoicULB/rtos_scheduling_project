@@ -89,6 +89,9 @@ def get_ftp_rm_schedule(tasks):
                 last_task_index = task_index
                 break
             if(task_index == last_task_index and not is_job_ended(job, tasks[task_index])):
+            #the problem we have here is that we do not handle the preemption
+            #a preemption can occurs many times
+            #if(task_index == last_task_index and not is_job_ended(job, tasks[task_index])):
                 job.nb_cpu_units +=1
                 last_task_index = task_index
                 break
