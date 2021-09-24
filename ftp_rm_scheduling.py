@@ -112,6 +112,13 @@ def get_ftp_rm_schedule_final(tasks):
         for task_index in range(len(tasks)):
             if schedules[task_index].run_task(i):
                 break
+    return schedules
+
+def test_ftp():
+    tasks = get_first_course_example_schedule()
+    scheduling = SystemScheduling(tasks)
+    scheduling.
+
 # TODO put to test
 def test_lcm_tasks_periods():
     t1 = Task(0, 10 , 80, 80)
@@ -155,4 +162,3 @@ def test_ftp_rm_schedule_full():
             print(str(job))
         #print(str(schedule))
 #test_lcm_tasks_periods()
-test_ftp_rm_schedule_full()

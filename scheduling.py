@@ -1,5 +1,29 @@
 from task import Task
 # TODO complete this class
+from numpy import lcm
+def ftp_rm_schedule(tasks):
+    """Sort the tasks according to their period
+    (RM Monotonic assignement)
+
+    Args:
+        tasks (list): a list of tasks
+    """
+    tasks.sort(key=lambda x: x.period)
+
+
+def get_lcm_tasks_period(tasks):
+    """Get the least common multiple of the tasks periods
+
+    Args:
+        tasks (list): the list of tasks
+
+    Returns:
+        int: the least common multiple of the tasks periods
+    """
+    periods = []
+    for task in tasks:
+        periods.append(task.period)
+    return (lcm.reduce(periods))
 class JobExecution:
     """Describe a execution block of a job.
      A job have multiple JobExecution when a preemption is done
@@ -11,6 +35,11 @@ class JobExecution:
     def __init__(self, start=0, cpu_units=1):
         self.start=start
         self.cpu_units = cpu_units
+
+    def get_as_tuple(self):
+        return (self.start, self.cpu_units)
+    def __str__(self) -> str:
+        return f"( {self.start} , {self.cpu_units} )"
 class Job:
     """Represents a job of a Task Scheduling.
 
@@ -77,6 +106,15 @@ class Job:
         """
         return self.get_end_of_job - self.start
 
+    #def str_schedule(self) :
+        #return f""
+
+    def get_as_array_of_jobs_exe(self):
+        arr = []
+        for job_exe in self.job_executions:
+            arr.append(job_exe.get_as_tuple())
+        return arr
+
 
 class TaskScheduling:
     
@@ -90,9 +128,10 @@ class TaskScheduling:
         Args:
             start (int): the time at which the job will start
         """
-        self.jobs.append(Job(job_executions=[JobExecution()], start=start, cpu_need=self.task.wcet, cpu_units=1))
+        self.jobs.append(Job(job_executions=[JobExecution(start=start)], start=start, cpu_need=self.task.wcet, cpu_units=1))
 
     def is_task_waiting(self, instant):
+        if not self.jobs: return True
         job = self.jobs[-1]
         range_period_start = job.start//self.task.period
         range_period_instant = instant // self.task.period
@@ -101,16 +140,32 @@ class TaskScheduling:
     def is_last_job_finished(self):
         if not self.jobs : return True
         return self.jobs[-1].is_finished()
-    
-    
-    def run_task(self, instant):
+    """
+    def is_last_job_interrupted(self, instant):
+        if not self.jobs:
+            return False
+        last_job = self.jobs[-1]
+        last_job[-1]
+        if self.is_last_job_finished() a
+    """
+    def run_task(self, instant, is_same_task_index):
         if not self.is_last_job_finished():
-            self.jobs[-1].add_cpu_unit()
+            if is_same_task_index:
+                self.jobs[-1].add_cpu_unit()
+            else:
+                self.add_job(instant)
             return True
         if self.is_last_job_finished() and self.is_task_waiting(instant):
             self.add_job(instant)
             return True
         return False
+
+    def get_scheduling_array(self):
+        arr = []
+        for job in self.jobs:
+            job_arr_tuple = job.get_as_array_of_jobs_exe()
+            arr += job_arr_tuple
+        return arr
 class SystemScheduling:
     """
     Class representing a a bounded scheduling of a set of tasks
@@ -118,23 +173,62 @@ class SystemScheduling:
 
     def __init__(self, tasks):
         sched = []
+        self.tasks=tasks
         for task in tasks:
             sched.append(TaskScheduling(task))
         self.schedules= sched
     
     def execute_FTP_schedule(self):
-        pass
-
+        lcm_tasks = get_lcm_tasks_period(self.tasks)
+    
+        #for i in range(len(tasks)):
+        schedules =  []
+        for task in self.tasks:
+            schedules.append(TaskScheduling(task))
+        last_task_index = 0
+        for i in range(lcm_tasks):
+            for task_index in range(len(self.tasks)):
+                is_same_task_index = task_index == last_task_index
+                if schedules[task_index].run_task(i, is_same_task_index):
+                    last_task_index = task_index
+                    break
+                #last_task_index = task_index
+        self.schedules = schedules
+        return schedules
+    
+    def get_array_of_schedules(self):
+        arr = []
+        for schedule in self.schedules:
+            arr.append(schedule.get_scheduling_array())
+        return arr
     def __str__(self) -> str:
-        pass
-    def print_schedules_in_line(self):
+        string = ""
+        arr = self.get_array_of_schedules()
+        for schedule in arr:
+            string += str(schedule)
+            string += "\n"
+        return string
+        
+
+    #def print_schedules_in_line(self):
 
 def get_first_course_example_schedule():
     t1 = Task(0, 3, 5, 5)
     t2 = Task(0, 2, 10, 10)
     t3 = Task(0, 4, 20, 20)
+    
     return [t1, t2, t3]
 
+def get_scheduling_course_exemple():
+    tasks = get_first_course_example_schedule()
+    scheduling = SystemScheduling(tasks)
+    scheduling.execute_FTP_schedule()
+    #print(str(scheduling))
+    return scheduling
+
+def test_scheduling_course_exemple():
+    print(str(get_scheduling_course_exemple()))
+#get_scheduling_course_exemple()
 
 """
 class Job:

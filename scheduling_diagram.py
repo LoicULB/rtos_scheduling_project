@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib.cm import get_cmap
 from matplotlib.ticker import MultipleLocator
 from task import Task
-from ftp_rm_scheduling import get_ftp_rm_schedule
+#from ftp_rm_scheduling import get_ftp_rm_schedule
 
 # TODO clean this ugly code
 # TODO use a schedules object
@@ -59,6 +59,13 @@ def gantt_of_schedule(schedules, time_limit , filename="gant_diagram.png"):
     # Setting graph attribute
     gnt.grid(True)
     #plt.style.use('classic')
+    #after
+    for i, schedule in enumerate(reversed(schedules)):
+        print(schedule)
+        gnt.broken_barh(schedule, (i*2,  1), facecolors=colors[i])
+
+    #before
+    """
     for i, schedule in enumerate(reversed(schedules)):
         #for j, task in enumerate(schedule):
         T = []
@@ -66,12 +73,14 @@ def gantt_of_schedule(schedules, time_limit , filename="gant_diagram.png"):
             tup = (job.start, job.nb_cpu_units)
             T.append(tup)
         gnt.broken_barh(T, (i*2,  1), facecolors=colors[i])
+    """
     plt.savefig(filename)
     return plt
     
 #gantt_of_schedule(schedules, 25)
     
 from scheduling import get_first_course_example_schedule
+from scheduling import get_scheduling_course_exemple
 # TODO doc
 def test_drawing_with_two_tasks_same_period():
     t1 = Task(0, 3, 5, 5)
@@ -84,5 +93,8 @@ def test_drawing_with_first_course_example():
     tasks = get_first_course_example_schedule()
     schedules = get_ftp_rm_schedule(tasks)
     gantt_of_schedule(schedules, 26, "first_course_example.png")
-
-test_drawing_with_first_course_example()
+def ultimate_test():
+    schedules = get_scheduling_course_exemple()
+    arr = schedules.get_array_of_schedules()
+    gantt_of_schedule(arr, 26, "first_course_example.png")
+ultimate_test()
