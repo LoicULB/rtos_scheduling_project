@@ -3,6 +3,7 @@ from task_generator import generate_random_tasks
 from numpy import lcm
 from task import Task
 from scheduling import Job
+from scheduling import TaskScheduling
 import numpy as np
 
 def ftp_rm_schedule(tasks):
@@ -97,6 +98,20 @@ def get_ftp_rm_schedule(tasks):
                 break
     return schedules
 
+
+
+def get_ftp_rm_schedule_final(tasks):
+    lcm_tasks = get_lcm_tasks_period(tasks)
+    
+    #for i in range(len(tasks)):
+    schedules =  []
+    for task in tasks:
+        schedules.append(TaskScheduling(task))
+    last_task_index = 0
+    for i in range(lcm_tasks):
+        for task_index in range(len(tasks)):
+            if schedules[task_index].run_task(i):
+                break
 # TODO put to test
 def test_lcm_tasks_periods():
     t1 = Task(0, 10 , 80, 80)

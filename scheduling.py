@@ -65,7 +65,7 @@ class Job:
         """Get the time of end of execution of the job
 
         Returns:
-            int: the time at which the Job ends
+            int: the time at which the Job ends #the same time a new job can begin
         """
         return self.job_executions[-1].start+self.job_executions[-1].cpu_units
 
@@ -90,7 +90,7 @@ class TaskScheduling:
         Args:
             start (int): the time at which the job will start
         """
-        self.jobs.append(Job(start=start, cpu_need=self.task.wcet))
+        self.jobs.append(Job(job_executions=[JobExecution()], start=start, cpu_need=self.task.wcet, cpu_units=1))
 
     def is_task_waiting(self, instant):
         job = self.jobs[-1]
@@ -98,14 +98,36 @@ class TaskScheduling:
         range_period_instant = instant // self.task.period
         return  not (range_period_start == range_period_instant)
 
-
+    def is_last_job_finished(self):
+        if not self.jobs : return True
+        return self.jobs[-1].is_finished()
+    
+    
+    def run_task(self, instant):
+        if not self.is_last_job_finished():
+            self.jobs[-1].add_cpu_unit()
+            return True
+        if self.is_last_job_finished() and self.is_task_waiting(instant):
+            self.add_job(instant)
+            return True
+        return False
 class SystemScheduling:
     """
     Class representing a a bounded scheduling of a set of tasks
     """
 
-    def __init__(self, array=[]):
-        self.scheduling=array
+    def __init__(self, tasks):
+        sched = []
+        for task in tasks:
+            sched.append(TaskScheduling(task))
+        self.schedules= sched
+    
+    def execute_FTP_schedule(self):
+        pass
+
+    def __str__(self) -> str:
+        pass
+    def print_schedules_in_line(self):
 
 def get_first_course_example_schedule():
     t1 = Task(0, 3, 5, 5)
