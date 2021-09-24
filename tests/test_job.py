@@ -9,7 +9,29 @@ def test_default_constructor():
     assert job.cpu_need == 0
 
 def test_start_new_job_execution():
-    pass
+    job = Job()
+    assert job.start==0
+    assert not job.job_executions
+    job.start_new_job_execution(3)
+    assert job.start==3
+    assert len(job.job_executions)==1
+    assert job.cpu_units==1
+    assert job.job_executions[0].cpu_units==1
+    assert job.job_executions[0].start == 3
+
+def test_start_2_new_job_execution():
+    job = Job()
+    
+    job.start_new_job_execution(3)
+    job.start_new_job_execution(5)
+    assert job.start==3
+    assert len(job.job_executions)==2
+    assert job.cpu_units==2
+    assert job.job_executions[-1].cpu_units==1
+    assert job.job_executions[-1].start == 5
+
+    
+
 def test_add_default_cpu_unit():
     job = Job()
     job.start_new_job_execution(start=0)

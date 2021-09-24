@@ -56,6 +56,8 @@ class Job:
         Args:
             start (int): the time at which the JobExecution will start
         """
+        if ( not self.job_executions):
+            self.start=start
         self.job_executions.append(JobExecution(start=start))
         self.cpu_units += 1
 
