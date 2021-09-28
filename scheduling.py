@@ -59,11 +59,11 @@ class Job:
     """
 
     offset : int = 0
-    start : int = 0
+    #start : int = 0
     absolute_deadline : int = 0
     cpu_units : int = 0
     cpu_need : int = 0
-    deadline : int = 0
+    #deadline : int = 0
     job_executions : List[int] = field(default_factory=list)
     
     def is_finished(self):
@@ -83,6 +83,8 @@ class Job:
         """
         #should put execption if there is no job_execution
         #exception if cpu units will become sumperior to cpu need
+        if (not job_executions):
+            raise Exception("Impossible to add a cpu unit to empty job execution")
         self.cpu_units += nb_cpu_units
         self.job_executions[-1].cpu_units+=nb_cpu_units
     
@@ -92,19 +94,19 @@ class Job:
         Args:
             start (int): the time at which the JobExecution will start
         """
-        if ( not self.job_executions):
-            self.start=start
         self.job_executions.append(JobExecution(start=start))
         self.cpu_units += 1
 
+    # TODO to check if correct
     def get_end_of_job(self):
         """Get the time of end of execution of the job
 
         Returns:
             int: the time at which the Job ends #the same time a new job can begin
         """
-        return self.job_executions[-1].start+self.job_executions[-1].cpu_units
+        return self.job_executions[-1].offset+self.job_executions[-1].cpu_units
 
+    # TODO to check if correct
     def get_response_time(self):
         """Get the response time of the job
 
@@ -114,7 +116,7 @@ class Job:
         return self.get_end_of_job - self.start
 
     def is_deadline_missed(self, instant : int ):
-        if instant > self.deadline:
+        if instant > self.absolute_deadline:
             return  not self.is_finished()
         return False
 
