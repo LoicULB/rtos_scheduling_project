@@ -71,4 +71,13 @@ def test_get_end_of_job_with_two_exe():
     assert job.get_end_of_job()==4
 
 
+def test_is_deadline_missed():
+    job = Job(offset=0,start = 0, absolute_deadline = 5, cpu_units = 0,cpu_need = 3,deadline =5)
+    assert not job.is_deadline_missed(0)
+    assert job.is_deadline_missed(5)
+    assert not job.is_deadline_missed(4)
+    assert job.is_deadline_missed(6)
+    
+
+
     

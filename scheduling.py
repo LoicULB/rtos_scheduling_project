@@ -114,8 +114,8 @@ class Job:
         return self.get_end_of_job - self.start
 
     def is_deadline_missed(self, instant : int ):
-        if instant > self.deadline:
-            return  not self.is_finished()
+        if instant >= self.deadline:
+            return not self.is_finished()
         return False
 
     #def str_schedule(self) :
