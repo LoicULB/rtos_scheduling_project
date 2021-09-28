@@ -1,6 +1,10 @@
 from task import Task
 # TODO complete this class
 from numpy import lcm
+from dataclasses import dataclass, field
+from typing import List
+
+
 def ftp_rm_schedule(tasks):
     """Sort the tasks according to their period
     (RM Monotonic assignement)
@@ -24,6 +28,8 @@ def get_lcm_tasks_period(tasks):
     for task in tasks:
         periods.append(task.period)
     return (lcm.reduce(periods))
+
+@dataclass
 class JobExecution:
     """Describe a execution block of a job.
      A job have multiple JobExecution when a preemption is done
@@ -31,15 +37,16 @@ class JobExecution:
     A JobExecution is characterized by a start time and the number of cpu_units it lasts without preemption
     """
 
+    start : int = 0
+    cpu_units : int = 1
 
-    def __init__(self, start=0, cpu_units=1):
-        self.start=start
-        self.cpu_units = cpu_units
 
     def get_as_tuple(self):
         return (self.start, self.cpu_units)
     def __str__(self) -> str:
         return f"( {self.start} , {self.cpu_units} )"
+
+@dataclass
 class Job:
     """Represents a job of a Task Scheduling.
 
@@ -50,15 +57,15 @@ class Job:
     CPU units tells the number of cpu units the job has consumed
     CPU need tells the number of cpu units the job need to consume
     """
-    def __init__(self, job_executions=[] ,start=0, deadline=0, cpu_units=0, cpu_need=0):
-        self.job_executions = job_executions
-        self.start = start
-        self.deadline = deadline
-        #should make the cpu_units variable private
-        self.cpu_units = cpu_units
-        self.cpu_need = cpu_need    
-    
 
+    offset : int = 0
+    start : int = 0
+    absolute_deadline : int = 0
+    cpu_units : int = 0
+    cpu_need : int = 0
+    deadline : int = 0
+    job_executions : List[int] = field(default_factory=list)
+    
     def is_finished(self):
         """Tells whether or not the current Job has consume all of it's CPU need (wcet)
 
