@@ -106,6 +106,11 @@ class Job:
         """
         return self.get_end_of_job - self.start
 
+    def is_deadline_missed(self, instant : int ):
+        if instant > self.deadline:
+            return  not self.is_finished()
+        return False
+
     #def str_schedule(self) :
         #return f""
 
@@ -121,14 +126,18 @@ class TaskScheduling:
     def __init__(self, task):
         self.jobs = []
         self.task = task
-    
+    def get_deadline_of_next_job(self, start):
+        range_period_start = (start-self.task.offset)//self.task.period
+        next_deadline =(range_period_start+1)*self.task.deadline + self.task.offset
+        return next_deadline
     def add_job(self, start):
         """Add a job to the TaskScheduling
 
         Args:
             start (int): the time at which the job will start
         """
-        self.jobs.append(Job(job_executions=[JobExecution(start=start)], start=start, cpu_need=self.task.wcet, cpu_units=1))
+        
+        self.jobs.append(Job(job_executions=[JobExecution(start=start)], start=start, cpu_need=self.task.wcet, cpu_units=1, deadline=self.get_deadline_of_next_job(start)))
 
     def is_task_waiting(self, instant):
         if not self.jobs:
@@ -157,7 +166,8 @@ class TaskScheduling:
             if is_same_task_index:
                 self.jobs[-1].add_cpu_unit()
             else:
-                self.add_job(instant)
+                #self.add_job(instant)
+                self.jobs[-1].start_new_job_execution(instant)
             return True
         if self.is_last_job_finished() and self.is_task_waiting(instant):
             self.add_job(instant)
@@ -205,6 +215,14 @@ class SystemScheduling:
         for schedule in self.schedules:
             arr.append(schedule.get_scheduling_array())
         return arr
+
+    def get_nb_deadline_misses(self):
+        cpt = 0
+        for schedule in self.schedules:
+            for job in schedule.jobs:
+                if job.is_deadline_missed(50):
+                    cpt +=1
+        return cpt
     def __str__(self) -> str:
         string = ""
         arr = self.get_array_of_schedules()
@@ -231,7 +249,9 @@ def get_scheduling_course_exemple():
     return scheduling
 
 def test_scheduling_course_exemple():
-    print(str(get_scheduling_course_exemple()))
+    scheduling = get_scheduling_course_exemple()
+    print(str(scheduling))
+    print(scheduling.get_nb_deadline_misses())
 #get_scheduling_course_exemple()
 test_scheduling_course_exemple()
 """
