@@ -57,7 +57,7 @@ class Job:
     CPU units tells the number of cpu units the job has consumed
     CPU need tells the number of cpu units the job need to consume
     """
-
+    # TODO change offset to release time
     offset : int = 0
     #start : int = 0
     absolute_deadline : int = 0
@@ -83,7 +83,7 @@ class Job:
         """
         #should put execption if there is no job_execution
         #exception if cpu units will become sumperior to cpu need
-        if (not job_executions):
+        if (not self.job_executions):
             raise Exception("Impossible to add a cpu unit to empty job execution")
         self.cpu_units += nb_cpu_units
         self.job_executions[-1].cpu_units+=nb_cpu_units
@@ -120,8 +120,6 @@ class Job:
             return not self.is_finished()
         return False
 
-    #def str_schedule(self) :
-        #return f""
 
     def get_as_array_of_jobs_exe(self):
         arr = []
@@ -135,20 +133,28 @@ class TaskScheduling:
     task : Task = Task()
     jobs : List[Job] = field(default_factory=list)
     
+    """
     def get_deadline_of_next_job(self, start):
         range_period_start = (start-self.task.offset)//self.task.period
         next_deadline =(range_period_start+1)*self.task.deadline + self.task.offset
         return next_deadline
-    def add_job(self, start):
+    """
+    def is_ready(self, instant):
+
+        return (instant-self.task.offset)%self.task.period == 0
+    def add_job(self, instant):
         """Add a job to the TaskScheduling
 
         Args:
             start (int): the time at which the job will start
         """
-        
-        self.jobs.append(Job(job_executions=[JobExecution(start=start)], start=start, cpu_need=self.task.wcet, cpu_units=1, deadline=self.get_deadline_of_next_job(start)))
+        #job_exe = [JobExecution(start=inst)]
+        job = Job(offset=instant, cpu_need=self.task.wcet, absolute_deadline=instant + self.task.deadline)
+        self.jobs.append(job)
 
+    """
     def is_task_waiting(self, instant):
+
         if not self.jobs:
             if instant -self.task.offset >=0:
              return True
@@ -158,7 +164,7 @@ class TaskScheduling:
         range_period_start = job.start//self.task.period
         range_period_instant = (instant-self.task.offset) // self.task.period
         return  not (range_period_start == range_period_instant)
-
+    """
     def is_last_job_finished(self):
         if not self.jobs : return True
         return self.jobs[-1].is_finished()
@@ -178,9 +184,11 @@ class TaskScheduling:
                 #self.add_job(instant)
                 self.jobs[-1].start_new_job_execution(instant)
             return True
+        """
         if self.is_last_job_finished() and self.is_task_waiting(instant):
             self.add_job(instant)
             return True
+        """
         return False
 
     def get_scheduling_array(self):
@@ -203,13 +211,17 @@ class SystemScheduling:
     
     def execute_FTP_schedule(self):
         lcm_tasks = get_lcm_tasks_period(self.tasks)
-    
+        time_limit = lcm_tasks
         #for i in range(len(tasks)):
         schedules =  []
         for task in self.tasks:
             schedules.append(TaskScheduling(task))
         last_task_index = 0
-        for i in range(lcm_tasks):
+        for i in range(time_limit):
+            for task_index in range(len(self.tasks)):
+                if (schedules[task_index].is_ready(i)):
+                    schedules[task_index].add_job(i)
+
             for task_index in range(len(self.tasks)):
                 is_same_task_index = task_index == last_task_index
                 if schedules[task_index].run_task(i, is_same_task_index):
@@ -262,7 +274,7 @@ def test_scheduling_course_exemple():
     print(str(scheduling))
     print(scheduling.get_nb_deadline_misses())
 #get_scheduling_course_exemple()
-test_scheduling_course_exemple()
+#test_scheduling_course_exemple()
 """
 class Job:
     

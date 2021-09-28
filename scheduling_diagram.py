@@ -97,4 +97,4 @@ def ultimate_test():
     schedules = get_scheduling_course_exemple()
     arr = schedules.get_array_of_schedules()
     gantt_of_schedule(arr, 26, "first_course_example.png")
-ultimate_test()
+#ultimate_test()
