@@ -1,4 +1,6 @@
+from dataclasses import dataclass, field
 
+@dataclass
 class Task:
     """
     A class used to represent a Task
@@ -17,11 +19,12 @@ class Task:
     period : int
         the period after which a new job of the task can be re released
     """
-    def __init__(self, offset=0, wcet=0, deadline=0 , period=0 ):
-        self.offset=offset
-        self.wcet = wcet
-        self.deadline = deadline
-        self.period = period
+    offset : int = 0
+    wcet : int = 0
+    deadline : int = 0
+    period : int = 0
+    is_hard : bool = True
+   
 
     def __str__(self):
         return f"{self.offset} {self.wcet} {self.deadline} {self.period}"

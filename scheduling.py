@@ -127,12 +127,12 @@ class Job:
             arr.append(job_exe.get_as_tuple())
         return arr
 
-
+@dataclass
 class TaskScheduling:
     
-    def __init__(self, task):
-        self.jobs = []
-        self.task = task
+    task : Task = Task()
+    jobs : List[Job] = field(default_factory=list)
+    
     def get_deadline_of_next_job(self, start):
         range_period_start = (start-self.task.offset)//self.task.period
         next_deadline =(range_period_start+1)*self.task.deadline + self.task.offset
