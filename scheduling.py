@@ -131,10 +131,14 @@ class TaskScheduling:
         self.jobs.append(Job(job_executions=[JobExecution(start=start)], start=start, cpu_need=self.task.wcet, cpu_units=1))
 
     def is_task_waiting(self, instant):
-        if not self.jobs: return True
+        if not self.jobs:
+            if instant -self.task.offset >=0:
+             return True
+            else :
+                return False
         job = self.jobs[-1]
         range_period_start = job.start//self.task.period
-        range_period_instant = instant // self.task.period
+        range_period_instant = (instant-self.task.offset) // self.task.period
         return  not (range_period_start == range_period_instant)
 
     def is_last_job_finished(self):
@@ -213,7 +217,7 @@ class SystemScheduling:
     #def print_schedules_in_line(self):
 
 def get_first_course_example_schedule():
-    t1 = Task(0, 3, 5, 5)
+    t1 = Task(2, 3, 5, 5)
     t2 = Task(0, 2, 10, 10)
     t3 = Task(0, 4, 20, 20)
     
@@ -229,7 +233,7 @@ def get_scheduling_course_exemple():
 def test_scheduling_course_exemple():
     print(str(get_scheduling_course_exemple()))
 #get_scheduling_course_exemple()
-
+test_scheduling_course_exemple()
 """
 class Job:
     
