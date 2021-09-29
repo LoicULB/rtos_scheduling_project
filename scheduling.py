@@ -118,7 +118,7 @@ class Job:
         return self.get_end_of_job - self.start
 
     def is_deadline_missed(self, instant : int ):
-        if instant >= self.absolute_deadline:
+        if instant > self.absolute_deadline:
             return not self.is_finished()
         return False
 
@@ -196,6 +196,12 @@ class TaskScheduling:
             arr += job_arr_tuple
         return arr
 
+    def is_deadline_missed(self, instant : int ):
+        if not self.jobs:
+            return False
+        return self.jobs[-1].is_deadline_missed(instant)
+
+
     # TODO write is deadline missed
 class SystemScheduling:
     """
@@ -222,6 +228,11 @@ class SystemScheduling:
             is_task_run = False
             for task_index in range(len(self.tasks)):
                 task_scheduling = schedules[task_index]
+
+                if (task_scheduling.task.is_hard):
+                     if (task_scheduling.is_deadline_missed(i)):
+                         raise Exception("A deadline has been missed! Stopping the simulation.")
+
                 if (task_scheduling.is_release_time(i)):
                     task_scheduling.add_job(i)
                 if not is_task_run:
@@ -253,20 +264,19 @@ class SystemScheduling:
             string += str(schedule)
             string += "\n"
         return string
-        
 
     #def print_schedules_in_line(self):
 
 def get_first_course_example_schedule():
-    t1 = Task(0, 2, 4, 5)
-    t2 = Task(0, 2, 4, 4)
-    return [t1, t2]
-
-def get_second_example_schedule():
     t1 = Task(0, 3, 5, 5)
     t2 = Task(0, 2, 10, 10)
     t3 = Task(0, 4, 20, 20)
     return [t1, t2, t3]
+
+def get_second_example_schedule():
+    t1 = Task(0, 2, 4, 5)
+    t2 = Task(0, 2, 4, 4)
+    return [t1, t2]
 
 def get_scheduling_course_first_exemple():
     tasks = get_first_course_example_schedule()
@@ -281,8 +291,8 @@ def get_scheduling_course_second_exemple():
     return scheduling
 
 def test_scheduling_course_exemple():
-    #scheduling = get_scheduling_course_first_exemple()
-    scheduling = get_scheduling_course_second_exemple()
+    scheduling = get_scheduling_course_first_exemple()
+    #scheduling = get_scheduling_course_second_exemple()
     print(str(scheduling))
     print(scheduling.get_nb_deadline_misses())
 
