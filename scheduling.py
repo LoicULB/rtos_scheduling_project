@@ -173,18 +173,19 @@ class TaskScheduling:
         if self.is_last_job_finished() a
     """
     def run_task(self, instant, is_same_task_index):
-        if not self.is_last_job_finished():
+        #if not self.jobs:
+        if not self.jobs or not self.is_last_job_finished():
             if is_same_task_index:
-                self.jobs[-1].add_cpu_unit()
+                # TODO make a def 
+                if not self.jobs[-1].job_executions:
+                    # TODO make a func
+                    self.jobs[-1].start_new_job_execution(instant)
+                else: 
+                    self.jobs[-1].add_cpu_unit()
             else:
-                #self.add_job(instant)
                 self.jobs[-1].start_new_job_execution(instant)
+            
             return True
-        """
-        if self.is_last_job_finished() and self.is_task_waiting(instant):
-            self.add_job(instant)
-            return True
-        """
         return False
 
     def get_scheduling_array(self):
