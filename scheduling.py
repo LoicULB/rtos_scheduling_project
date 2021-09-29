@@ -150,7 +150,7 @@ class TaskScheduling:
         Returns:
             [type]: [description]
         """
-        return (instant-self.task.offset)%self.task.period == 0
+        return (instant-(self.task.offset))%self.task.period == 0
     def add_job(self, instant):
         """Add a job to the TaskScheduling
 
@@ -173,8 +173,9 @@ class TaskScheduling:
         if self.is_last_job_finished() a
     """
     def run_task(self, instant, is_same_task_index):
-        #if not self.jobs:
-        if not self.jobs or not self.is_last_job_finished():
+        if not self.jobs:
+            return False
+        if not self.is_last_job_finished():
             if is_same_task_index:
                 # TODO make a def 
                 if not self.jobs[-1].job_executions:
@@ -209,6 +210,7 @@ class SystemScheduling:
         self.schedules= sched
     
     def execute_FTP_schedule(self):
+        # TODO change the time limit to the instructions
         lcm_tasks = get_lcm_tasks_period(self.tasks)
         time_limit = lcm_tasks
         #for i in range(len(tasks)):
@@ -217,16 +219,16 @@ class SystemScheduling:
             schedules.append(TaskScheduling(task))
         last_task_index = 0
         for i in range(time_limit):
+            is_task_run = False
             for task_index in range(len(self.tasks)):
-                if (schedules[task_index].is_ready(i)):
-                    schedules[task_index].add_job(i)
+                task_scheduling = schedules[task_index]
+                if (task_scheduling.is_release_time(i)):
+                    task_scheduling.add_job(i)
+                if not is_task_run:
+                    is_task_run = task_scheduling.run_task(i,task_index==last_task_index )
+                
 
-            for task_index in range(len(self.tasks)):
-                is_same_task_index = task_index == last_task_index
-                if schedules[task_index].run_task(i, is_same_task_index):
-                    last_task_index = task_index
-                    break
-                #last_task_index = task_index
+            
         self.schedules = schedules
         return schedules
     
@@ -255,7 +257,7 @@ class SystemScheduling:
     #def print_schedules_in_line(self):
 
 def get_first_course_example_schedule():
-    t1 = Task(2, 3, 5, 5)
+    t1 = Task(0, 3, 5, 5)
     t2 = Task(0, 2, 10, 10)
     t3 = Task(0, 4, 20, 20)
     
@@ -273,14 +275,4 @@ def test_scheduling_course_exemple():
     print(str(scheduling))
     print(scheduling.get_nb_deadline_misses())
 #get_scheduling_course_exemple()
-#test_scheduling_course_exemple()
-"""
-class Job:
-    
-    def __init__(self, start=0, nb_cpu_units=0):
-        self.start = start
-        self.nb_cpu_units = nb_cpu_units
-
-    def __str__(self):
-        return f"{self.start} {self.nb_cpu_units}"
-"""
+test_scheduling_course_exemple()
