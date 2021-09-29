@@ -96,5 +96,7 @@ def test_drawing_with_first_course_example():
 def ultimate_test():
     schedules = get_scheduling_course_exemple()
     arr = schedules.get_array_of_schedules()
-    gantt_of_schedule(arr, 26, "first_course_example.png")
-#ultimate_test()
+    gantt_of_schedule(arr, 26, "C:\\Users\\keser\\Desktop\\first_course_example2.png")
+
+
+ultimate_test()

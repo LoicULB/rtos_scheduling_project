@@ -226,7 +226,10 @@ class SystemScheduling:
                     task_scheduling.add_job(i)
                 if not is_task_run:
                     is_task_run = task_scheduling.run_task(i,task_index==last_task_index )
-                
+                    if (is_task_run):
+                        #print("index tâche : ", task_index)
+                        last_task_index = task_index
+
 
             
         self.schedules = schedules
