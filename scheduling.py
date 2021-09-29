@@ -152,7 +152,7 @@ class TaskScheduling:
         job = Job(offset=instant, cpu_need=self.task.wcet, absolute_deadline=instant + self.task.deadline)
         self.jobs.append(job)
 
-    """
+    
     def is_task_waiting(self, instant):
 
         if not self.jobs:
@@ -164,7 +164,7 @@ class TaskScheduling:
         range_period_start = job.start//self.task.period
         range_period_instant = (instant-self.task.offset) // self.task.period
         return  not (range_period_start == range_period_instant)
-    """
+    
     def is_last_job_finished(self):
         if not self.jobs : return True
         return self.jobs[-1].is_finished()
