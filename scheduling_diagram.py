@@ -79,24 +79,13 @@ def gantt_of_schedule(schedules, time_limit , filename="gant_diagram.png"):
     
 #gantt_of_schedule(schedules, 25)
     
-from scheduling import get_first_course_example_schedule
-from scheduling import get_scheduling_course_exemple
-# TODO doc
-def test_drawing_with_two_tasks_same_period():
-    t1 = Task(0, 3, 5, 5)
-    t2 = Task(0, 2, 5, 5)
-    tasks = [t1, t2]
-    schedules = get_ftp_rm_schedule(tasks)
-    gantt_of_schedule(schedules,6, 'simple_schedules.png')
-# TODO doc
-def test_drawing_with_first_course_example():
-    tasks = get_first_course_example_schedule()
-    schedules = get_ftp_rm_schedule(tasks)
-    gantt_of_schedule(schedules, 26, "first_course_example.png")
+from scheduling import get_scheduling_course_first_exemple
+from scheduling import get_scheduling_course_second_exemple
+
 def ultimate_test():
-    schedules = get_scheduling_course_exemple()
+    schedules = get_scheduling_course_second_exemple()
     arr = schedules.get_array_of_schedules()
-    gantt_of_schedule(arr, 26, "C:\\Users\\keser\\Desktop\\first_course_example2.png")
+    gantt_of_schedule(arr, 26, "second_course_example.png")
 
 
 ultimate_test()

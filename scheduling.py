@@ -229,8 +229,6 @@ class SystemScheduling:
                     if (is_task_run):
                         #print("index tâche : ", task_index)
                         last_task_index = task_index
-
-
             
         self.schedules = schedules
         return schedules
@@ -260,22 +258,34 @@ class SystemScheduling:
     #def print_schedules_in_line(self):
 
 def get_first_course_example_schedule():
+    t1 = Task(0, 2, 4, 5)
+    t2 = Task(0, 2, 4, 4)
+    return [t1, t2]
+
+def get_second_example_schedule():
     t1 = Task(0, 3, 5, 5)
     t2 = Task(0, 2, 10, 10)
     t3 = Task(0, 4, 20, 20)
-    
     return [t1, t2, t3]
 
-def get_scheduling_course_exemple():
+def get_scheduling_course_first_exemple():
     tasks = get_first_course_example_schedule()
     scheduling = SystemScheduling(tasks)
     scheduling.execute_FTP_schedule()
-    #print(str(scheduling))
+    return scheduling
+
+def get_scheduling_course_second_exemple():
+    tasks = get_second_example_schedule()
+    scheduling = SystemScheduling(tasks)
+    scheduling.execute_FTP_schedule()
     return scheduling
 
 def test_scheduling_course_exemple():
-    scheduling = get_scheduling_course_exemple()
+    #scheduling = get_scheduling_course_first_exemple()
+    scheduling = get_scheduling_course_second_exemple()
     print(str(scheduling))
     print(scheduling.get_nb_deadline_misses())
+
 #get_scheduling_course_exemple()
+
 test_scheduling_course_exemple()
