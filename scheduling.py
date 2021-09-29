@@ -72,6 +72,8 @@ class Job:
         Returns:
             boolean : Yes if the job is finished.
         """
+        if (self.cpu_units > self.cpu_need):
+            raise Exception("Jobs cannot have more cpu units than it needs")
         return self.cpu_units == self.cpu_need
 
     def add_cpu_unit(self, nb_cpu_units = 1):
@@ -139,8 +141,15 @@ class TaskScheduling:
         next_deadline =(range_period_start+1)*self.task.deadline + self.task.offset
         return next_deadline
     """
-    def is_ready(self, instant):
+    def is_release_time(self, instant : int ):
+        """Checks whether or not a new job is ready to be released
 
+        Args:
+            instant (int): instant where we will check whether or not a new job is ready to be released
+
+        Returns:
+            [type]: [description]
+        """
         return (instant-self.task.offset)%self.task.period == 0
     def add_job(self, instant):
         """Add a job to the TaskScheduling
@@ -152,19 +161,6 @@ class TaskScheduling:
         job = Job(offset=instant, cpu_need=self.task.wcet, absolute_deadline=instant + self.task.deadline)
         self.jobs.append(job)
 
-    
-    def is_task_waiting(self, instant):
-
-        if not self.jobs:
-            if instant -self.task.offset >=0:
-             return True
-            else :
-                return False
-        job = self.jobs[-1]
-        range_period_start = job.start//self.task.period
-        range_period_instant = (instant-self.task.offset) // self.task.period
-        return  not (range_period_start == range_period_instant)
-    
     def is_last_job_finished(self):
         if not self.jobs : return True
         return self.jobs[-1].is_finished()
@@ -197,6 +193,8 @@ class TaskScheduling:
             job_arr_tuple = job.get_as_array_of_jobs_exe()
             arr += job_arr_tuple
         return arr
+
+    # TODO write is deadline missed
 class SystemScheduling:
     """
     Class representing a a bounded scheduling of a set of tasks
