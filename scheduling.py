@@ -58,7 +58,7 @@ class Job:
     CPU need tells the number of cpu units the job need to consume
     """
     # TODO change offset to release time
-    offset : int = 0
+    release_time : int = 0
     #start : int = 0
     absolute_deadline : int = 0
     cpu_units : int = 0
@@ -158,7 +158,7 @@ class TaskScheduling:
             start (int): the time at which the job will start
         """
         #job_exe = [JobExecution(start=inst)]
-        job = Job(offset=instant, cpu_need=self.task.wcet, absolute_deadline=instant + self.task.deadline)
+        job = Job(release_time=instant, cpu_need=self.task.wcet, absolute_deadline=instant + self.task.deadline)
         self.jobs.append(job)
 
     def is_last_job_finished(self):

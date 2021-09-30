@@ -8,7 +8,7 @@ def test_add_job_offset_0():
     task_scheduling.add_job(0)
     assert task_scheduling.jobs
     #test if job created is well initialized
-    assert task_scheduling.jobs[-1].offset == 0
+    assert task_scheduling.jobs[-1].release_time == 0
     assert task_scheduling.jobs[-1].cpu_need == 3
     assert task_scheduling.jobs[-1].absolute_deadline == 5
     assert task_scheduling.jobs[-1].cpu_units == 0
@@ -21,7 +21,7 @@ def test_add_job_offset_2():
     task_scheduling.add_job(2)
     assert task_scheduling.jobs
     #test if job created is well initialized
-    assert task_scheduling.jobs[-1].offset == 2
+    assert task_scheduling.jobs[-1].release_time == 2
     assert task_scheduling.jobs[-1].cpu_need == 3
     assert task_scheduling.jobs[-1].absolute_deadline == 7
     assert task_scheduling.jobs[-1].cpu_units == 0
@@ -34,7 +34,7 @@ def test_add_job_deadline_not_same_as_period():
     task_scheduling.add_job(2)
     assert task_scheduling.jobs
     #test if job created is well initialized
-    assert task_scheduling.jobs[-1].offset == 2
+    assert task_scheduling.jobs[-1].release_time == 2
     assert task_scheduling.jobs[-1].cpu_need == 3
     assert task_scheduling.jobs[-1].absolute_deadline == 12
     assert task_scheduling.jobs[-1].cpu_units == 0

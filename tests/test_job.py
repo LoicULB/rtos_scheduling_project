@@ -12,7 +12,7 @@ def test_start_new_job_execution():
     job = Job()
     assert not job.job_executions
     job.start_new_job_execution(3)
-    assert job.offset!=3
+    assert job.release_time != 3
     assert len(job.job_executions)==1
     assert job.cpu_units==1
     assert job.job_executions[0].cpu_units==1
@@ -75,8 +75,4 @@ def test_is_deadline_missed():
     assert not job.is_deadline_missed(0)
     assert job.is_deadline_missed(5)
     assert not job.is_deadline_missed(4)
-    assert job.is_deadline_missed(6)
-    
-
-
-    
+    assert job.is_deadline_missed(6)    
