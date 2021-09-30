@@ -221,7 +221,7 @@ class SystemScheduling:
         return max(self.tasks, key = lambda task:task.offset).offset
     
     def get_feasibility_interval(self):
-        return self.get_maximum_offset() + get_lcm_tasks_period(self.tasks)
+        return self.get_maximum_offset() + (2 *  get_lcm_tasks_period(self.tasks))
     
     def execute_FTP_schedule(self):
         # TODO change the time limit to the instructions
