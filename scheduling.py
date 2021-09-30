@@ -3,6 +3,7 @@ from task import Task
 from numpy import lcm
 from dataclasses import dataclass, field
 from typing import List
+from exceptions import DeadlineMissedException
 
 
 def ftp_rm_schedule(tasks):
@@ -214,24 +215,30 @@ class SystemScheduling:
         for task in tasks:
             sched.append(TaskScheduling(task))
         self.schedules= sched
+        self.feasibility_interval = self.get_feasibility_interval()
+
+    def get_maximum_offset(self):
+        return max(self.tasks, key = lambda task:task.offset).offset
+    
+    def get_feasibility_interval(self):
+        return self.get_maximum_offset() + get_lcm_tasks_period(self.tasks)
     
     def execute_FTP_schedule(self):
         # TODO change the time limit to the instructions
-        lcm_tasks = get_lcm_tasks_period(self.tasks)
-        time_limit = lcm_tasks
+        
         #for i in range(len(tasks)):
         schedules =  []
         for task in self.tasks:
             schedules.append(TaskScheduling(task))
         last_task_index = 0
-        for i in range(time_limit):
+        for i in range(self.feasibility_interval):
             is_task_run = False
             for task_index in range(len(self.tasks)):
                 task_scheduling = schedules[task_index]
 
                 if (task_scheduling.task.is_hard):
                      if (task_scheduling.is_deadline_missed(i)):
-                         raise Exception("A deadline has been missed! Stopping the simulation.")
+                         raise DeadlineMissedException(f"A deadline has been missed at instant {i} for task {task_index} ")
 
                 if (task_scheduling.is_release_time(i)):
                     task_scheduling.add_job(i)

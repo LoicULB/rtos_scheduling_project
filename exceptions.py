@@ -1,0 +1,2 @@
+class DeadlineMissedException(Exception):
+    pass
