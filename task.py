@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+
 
 @dataclass
 class Task:
@@ -19,17 +20,11 @@ class Task:
     period : int
         the period after which a new job of the task can be re released
     """
-    offset : int = 0
-    wcet : int = 0
-    deadline : int = 0
-    period : int = 0
-    is_hard : bool = True
-   
+    offset: int = 0
+    wcet: int = 0
+    deadline: int = 0
+    period: int = 0
+    is_hard: bool = True
 
     def __str__(self):
         return f"{self.offset} {self.wcet} {self.deadline} {self.period}"
-
-
-    
-
-        
