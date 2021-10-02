@@ -5,6 +5,7 @@ This is the main file used to launch the program from the command line
 from os import sys
 
 from scheduling import SystemScheduling
+from scheduling import get_lcm_tasks_period
 from scheduling_diagram import gantt_of_schedule
 from task import Task
 
@@ -37,7 +38,7 @@ if __name__ == "__main__":
         scheduling.execute_FTP_schedule()
 
         array = scheduling.get_array_of_schedules()
-        gantt_of_schedule(array, scheduling.get_feasibility_interval())
+        gantt_of_schedule(array, get_lcm_tasks_period(task_set))
 
 
     elif sys.argv[1] == "audsley":
