@@ -77,6 +77,7 @@ class Job:
             raise Exception("Jobs cannot have more cpu units than it needs")
         return self.cpu_units == self.cpu_need
 
+    #exception if receives cpu_units after its deadline
     def add_cpu_unit(self, nb_cpu_units = 1):
         """Add a specific number of cpu_units to the last JobExecution of the Job
         Update the cpu_units counter of the Job at the same time
@@ -176,13 +177,14 @@ class TaskScheduling:
     def run_task(self, instant, is_same_task_index):
         if not self.jobs:
             return False
-        if not self.is_last_job_finished():
+        if not self.is_last_job_finished() and not self.is_deadline_missed(instant):
             if is_same_task_index:
                 # TODO make a def 
-                if not self.jobs[-1].job_executions:
+                if not self.jobs[-1].job_executions :
                     # TODO make a func
                     self.jobs[-1].start_new_job_execution(instant)
                 else: 
+
                     self.jobs[-1].add_cpu_unit()
             else:
                 self.jobs[-1].start_new_job_execution(instant)
@@ -227,9 +229,12 @@ class SystemScheduling:
         # TODO change the time limit to the instructions
         
         #for i in range(len(tasks)):
+        """
         schedules =  []
         for task in self.tasks:
             schedules.append(TaskScheduling(task))
+        """
+        schedules = self.schedules
         last_task_index = 0
         for i in range(self.feasibility_interval):
             is_task_run = False
@@ -238,7 +243,8 @@ class SystemScheduling:
 
                 if (task_scheduling.task.is_hard):
                      if (task_scheduling.is_deadline_missed(i)):
-                         raise DeadlineMissedException(f"A deadline has been missed at instant {i} for task {task_index} ")
+                         pass
+                         #raise DeadlineMissedException(f"A deadline has been missed at instant {i} for task {task_index} ")
 
                 if (task_scheduling.is_release_time(i)):
                     task_scheduling.add_job(i)
@@ -285,6 +291,12 @@ def get_second_example_schedule():
     t2 = Task(0, 2, 4, 4)
     return [t1, t2]
 
+def get_deadline_missed_example():
+    t1 = Task(0, 3, 5, 5)
+    t2 = Task(0, 2, 10, 10)
+    t3 = Task(0, 4, 10, 20)
+    return [t1, t2, t3]
+
 def get_scheduling_course_first_exemple():
     tasks = get_first_course_example_schedule()
     scheduling = SystemScheduling(tasks)
@@ -293,6 +305,12 @@ def get_scheduling_course_first_exemple():
 
 def get_scheduling_course_second_exemple():
     tasks = get_second_example_schedule()
+    scheduling = SystemScheduling(tasks)
+    scheduling.execute_FTP_schedule()
+    return scheduling
+
+def get_scheduling_deadline_missed():
+    tasks = get_deadline_missed_example()
     scheduling = SystemScheduling(tasks)
     scheduling.execute_FTP_schedule()
     return scheduling
