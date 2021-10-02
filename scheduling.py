@@ -29,6 +29,7 @@ def get_lcm_tasks_period(tasks):
     periods = []
     for task in tasks:
         periods.append(task.period)
+
     return (lcm.reduce(periods))
 
 
@@ -320,4 +321,4 @@ def test_scheduling_course_exemple():
 
 # get_scheduling_course_exemple()
 
-test_scheduling_course_exemple()
+#test_scheduling_course_exemple()
