@@ -124,7 +124,7 @@ class Job:
         return self.get_end_of_job - self.start
 
     def is_deadline_missed(self, instant: int):
-        if instant > self.absolute_deadline:
+        if instant >= self.absolute_deadline:
             return not self.is_finished()
         return False
 

@@ -13,15 +13,13 @@ def test_make_all_tasks_soft():
         assert task.is_hard == False
 
 
-def test_is_task_lowest_priority_viable():
-    task_set = get_first_course_example_schedule()
-    assert is_task_lowest_priority_viable(0, task_set)
+
 
 
 def test_is_not_lowest_priority_viable():
     task_set = get_deadline_missed_example()
-    assert is_task_lowest_priority_viable(0, task_set)
-    assert is_task_lowest_priority_viable(1, task_set)
+    assert not is_task_lowest_priority_viable(0, task_set)
+    assert not is_task_lowest_priority_viable(1, task_set)
     assert not is_task_lowest_priority_viable(2, task_set)
 
 
