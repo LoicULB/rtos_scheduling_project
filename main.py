@@ -8,7 +8,9 @@ from scheduling import SystemScheduling
 from scheduling import get_lcm_tasks_period
 from scheduling_diagram import gantt_of_schedule
 from audsley import audsley_recur
+from audsley import make_all_tasks_soft
 from task import Task
+from exceptions import DeadlineMissedException
 
 
 def parse_input_file(file_path):
@@ -45,8 +47,14 @@ if __name__ == "__main__":
 
     if sys.argv[1] == "scheduler":
         task_set = parse_input_file(sys.argv[2])
+        #make_all_tasks_soft(task_set)
         scheduling = SystemScheduling(task_set)
-        scheduling.execute_FTP_schedule()
+        
+        try:
+            scheduling.execute_FTP_schedule()
+        except DeadlineMissedException:
+            pass
+        
         gantt_of_schedule(scheduling, get_lcm_tasks_period(task_set))
 
     elif sys.argv[1] == "audsley":

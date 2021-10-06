@@ -166,6 +166,7 @@ def gantt_of_schedule(sys_schedules, time_limit , filename="gant_diagram.png"):
     fig.set_figwidth(12)
     fig.set_figheight(4)
     plt.savefig(filename)
+    plt.show()
     return plt
     
 from scheduling import get_scheduling_course_first_exemple
@@ -176,6 +177,6 @@ def ultimate_test():
     schedules = get_scheduling_course_second_exemple()
     #schedules = get_scheduling_deadline_missed()
     #arr = schedules.get_array_of_schedules()
-    gantt_of_schedule(schedules, 26, "C:\\Users\\keser\\Desktop\\second_course_example.png")
+    gantt_of_schedule(schedules, 26, "visualizator_scheduling.png")
 
-ultimate_test()
+#ultimate_test()
