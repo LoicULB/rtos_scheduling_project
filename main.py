@@ -7,6 +7,7 @@ from os import sys
 from scheduling import SystemScheduling
 from scheduling import get_lcm_tasks_period
 from scheduling_diagram import gantt_of_schedule
+from audsley import audsley_recur
 from task import Task
 
 
@@ -26,6 +27,16 @@ def parse_input_file(file_path):
 
     return task_set
 
+def write_output_file(task_set):
+    """
+    Create the file audsley.txt which contains the FTP assignment that has been found
+    Note: the file will be created at the project root
+    """
+
+    with open("audsley.txt", 'w') as output_file:
+       for task in task_set:
+           output_file.write(f"{task.offset} {task.wcet} {task.deadline} {task.period} \n")
+
 
 if __name__ == "__main__":
 
@@ -36,10 +47,12 @@ if __name__ == "__main__":
         task_set = parse_input_file(sys.argv[2])
         scheduling = SystemScheduling(task_set)
         scheduling.execute_FTP_schedule()
-
-        array = scheduling.get_array_of_schedules()
-        gantt_of_schedule(array, get_lcm_tasks_period(task_set))
-
+        gantt_of_schedule(scheduling, get_lcm_tasks_period(task_set))
 
     elif sys.argv[1] == "audsley":
-        pass
+        task_set = parse_input_file(sys.argv[2])
+        audsley_recur(task_set, task_set.copy())
+        write_output_file(task_set)
+
+    else:
+        sys.exit("The second argument must be either 'scheduler' or 'audsley'.")
