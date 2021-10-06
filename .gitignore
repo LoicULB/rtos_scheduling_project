@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea/encodings.xml
+
+.idea/misc.xml
+.idea/rtos_scheduling_project.iml
