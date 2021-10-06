@@ -6,8 +6,6 @@ class Task:
     """
     A class used to represent a Task
 
-    ...
-
     Attributes
     ----------
 
@@ -19,6 +17,8 @@ class Task:
         the time after which the jobs of the given task has to end
     period : int
         the period after which a new job of the task can be re released
+    is_hard : bool
+        tells wether or not the task should be considered as hard real-time
     """
     offset: int = 0
     wcet: int = 0
