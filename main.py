@@ -37,7 +37,7 @@ def write_output_file(task_set):
 
     with open("audsley.txt", 'w') as output_file:
        for task in task_set:
-           output_file.write(f"{task.offset} {task.wcet} {task.deadline} {task.period} \n")
+           output_file.write(str(task) + "\n")
 
 
 if __name__ == "__main__":
