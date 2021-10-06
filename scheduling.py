@@ -308,6 +308,7 @@ def get_deadline_missed_example():
     t3 = Task(0, 4, 10, 20)
     return [t1, t2, t3]
 
+
 def get_scheduling_course_first_exemple():
     tasks = get_first_course_example_schedule()
     scheduling = SystemScheduling(tasks)

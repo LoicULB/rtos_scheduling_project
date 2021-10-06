@@ -52,11 +52,6 @@ def audsley_recur(tasks, leftover_tasks):
                 tasks.pop(i)
                 tasks.insert(len(leftover_tasks) - 1, task)
                 leftover_tasks.pop(i)
-
                 return audsley_recur(tasks, leftover_tasks)
-
         return False
-
     return True
-
-

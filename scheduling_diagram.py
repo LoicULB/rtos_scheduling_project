@@ -173,9 +173,9 @@ from scheduling import get_scheduling_course_second_exemple
 from scheduling import get_scheduling_deadline_missed
 
 def ultimate_test():
-    schedules = get_scheduling_course_first_exemple()
+    schedules = get_scheduling_course_second_exemple()
     #schedules = get_scheduling_deadline_missed()
     #arr = schedules.get_array_of_schedules()
-    gantt_of_schedule(schedules, 26, "second_course_example.png")
+    gantt_of_schedule(schedules, 26, "C:\\Users\\keser\\Desktop\\second_course_example.png")
 
 ultimate_test()
