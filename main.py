@@ -34,7 +34,7 @@ def write_output_file(task_set):
     Note: the file will be created at the project root
     """
 
-    with open("audsley.txt", 'w') as output_file:
+    with open("outputs/audsley/audsley_ordering.txt", 'w') as output_file:
         for task in task_set:
             output_file.write(str(task) + "\n")
 
