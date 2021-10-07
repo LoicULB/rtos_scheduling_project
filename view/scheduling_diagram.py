@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.cm import get_cmap
 from matplotlib.ticker import MultipleLocator
 from matplotlib.lines import Line2D
-from task import Task
-from scheduling import SystemScheduling
-from scheduling import JobExecution
+from model.scheduling import SystemScheduling
+
+
 #from ftp_rm_scheduling import get_ftp_rm_schedule
 
 def set_limits_of_graph(sys_schedules : SystemScheduling, graph):
@@ -111,7 +110,7 @@ def add_legend():
     plt.legend(handles=handles)
 # TODO clean this ugly code
 # TODO use a schedules object
-def gantt_of_schedule(sys_schedules, time_limit , filename="gant_diagram.png"):
+def gantt_of_schedule(sys_schedules, filename="view/scheduling_outputs/schedugant_diagram.png"):
     """Save a png of the gant diagram of the given schedule
 
     Args:
@@ -168,10 +167,10 @@ def gantt_of_schedule(sys_schedules, time_limit , filename="gant_diagram.png"):
     plt.savefig(filename)
     plt.show()
     return plt
-    
-from scheduling import get_scheduling_course_first_exemple
-from scheduling import get_scheduling_course_second_exemple
-from scheduling import get_scheduling_deadline_missed
+
+
+from model.scheduling import get_scheduling_course_second_exemple
+
 
 def ultimate_test():
     schedules = get_scheduling_course_second_exemple()

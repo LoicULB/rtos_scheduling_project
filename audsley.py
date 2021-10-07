@@ -1,6 +1,5 @@
 from exceptions import DeadlineMissedException
-from scheduling import SystemScheduling
-from task import Task
+from model.scheduling import SystemScheduling
 
 
 def is_task_lowest_priority_viable(task_index, tasks):

@@ -1,10 +1,10 @@
 
 from task_generator import generate_random_tasks
 from numpy import lcm
-from task import Task
-from scheduling import Job
-from scheduling import TaskScheduling
-import numpy as np
+from model.task import Task
+from model.scheduling import Job
+from model.scheduling import TaskScheduling
+
 
 def ftp_rm_schedule(tasks):
     """Sort the tasks according to their period

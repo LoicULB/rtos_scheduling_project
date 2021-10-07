@@ -5,12 +5,11 @@ This is the main file used to launch the program from the command line
 from os import sys
 
 from audsley import audsley_recur
-from audsley import make_all_tasks_soft
 from exceptions import DeadlineMissedException
-from scheduling import SystemScheduling
-from scheduling import get_lcm_tasks_period
-from scheduling_diagram import gantt_of_schedule
-from task import Task
+from model.scheduling import SystemScheduling
+from model.scheduling import get_lcm_tasks_period
+from view.scheduling_diagram import gantt_of_schedule
+from model.task import Task
 
 
 def parse_input_file(file_path):
@@ -48,7 +47,6 @@ if __name__ == "__main__":
 
     if sys.argv[1] == "scheduler":
         task_set = parse_input_file(sys.argv[2])
-        # make_all_tasks_soft(task_set)
         scheduling = SystemScheduling(task_set)
 
         try:
@@ -56,7 +54,7 @@ if __name__ == "__main__":
         except DeadlineMissedException:
             pass
 
-        gantt_of_schedule(scheduling, get_lcm_tasks_period(task_set))
+        gantt_of_schedule(scheduling)
 
     elif sys.argv[1] == "audsley":
         task_set = parse_input_file(sys.argv[2])

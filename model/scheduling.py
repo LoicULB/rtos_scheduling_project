@@ -1,11 +1,9 @@
-from dataclasses import dataclass, field
 from numpy import lcm
 from typing import List
 
 from exceptions import DeadlineMissedException
-from job import *
-from task import Task
-from task_sets import *
+from model.job import *
+from test_functions.task_sets import *
 
 
 def ftp_rm_schedule(tasks):
@@ -207,38 +205,3 @@ class SystemScheduling:
         return string
 
     # def print_schedules_in_line(self):
-
-
-def get_scheduling_course_first_exemple():
-    tasks = get_first_course_example_schedule()
-    scheduling = SystemScheduling(tasks)
-    scheduling.execute_FTP_schedule()
-    return scheduling
-
-
-def get_scheduling_course_second_exemple():
-    tasks = get_second_example_schedule()
-    scheduling = SystemScheduling(tasks)
-    scheduling.execute_FTP_schedule()
-    return scheduling
-
-
-def get_scheduling_deadline_missed():
-    tasks = get_deadline_missed_example()
-    scheduling = SystemScheduling(tasks)
-    scheduling.execute_FTP_schedule()
-    return scheduling
-
-def synchronous_arbitrary_task_set():
-    t1 = Task(0, 52, 110, 100)
-    t2 = Task(0, 52 , 154, 140)
-    return [t1,t2]
-def test_scheduling_course_exemple():
-    scheduling = get_scheduling_course_first_exemple()
-    # scheduling = get_scheduling_course_second_exemple()
-    print(str(scheduling))
-    print(scheduling.get_nb_deadline_misses())
-
-# get_scheduling_course_exemple()
-
-# test_scheduling_course_exemple()
