@@ -21,13 +21,3 @@ def get_scheduling_deadline_missed():
     scheduling = SystemScheduling(tasks)
     scheduling.execute_FTP_schedule()
     return scheduling
-
-
-def test_scheduling_course_exemple():
-    scheduling = get_scheduling_course_first_exemple()
-    # scheduling = get_scheduling_course_second_exemple()
-    print(str(scheduling))
-
-# get_scheduling_course_exemple()
-
-# test_scheduling_course_exemple()
