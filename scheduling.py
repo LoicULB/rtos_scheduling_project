@@ -328,6 +328,10 @@ def get_scheduling_deadline_missed():
     scheduling.execute_FTP_schedule()
     return scheduling
 
+def synchronous_arbitrary_task_set():
+    t1 = Task(0, 52, 110, 100)
+    t2 = Task(0, 52 , 154, 140)
+    return [t1,t2]
 def test_scheduling_course_exemple():
     scheduling = get_scheduling_course_first_exemple()
     # scheduling = get_scheduling_course_second_exemple()
