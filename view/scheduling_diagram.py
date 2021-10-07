@@ -167,15 +167,3 @@ def gantt_of_schedule(sys_schedules, filename="view/scheduling_outputs/schedugan
     plt.savefig(filename)
     plt.show()
     return plt
-
-
-from model.scheduling import get_scheduling_course_second_exemple
-
-
-def ultimate_test():
-    schedules = get_scheduling_course_second_exemple()
-    #schedules = get_scheduling_deadline_missed()
-    #arr = schedules.get_array_of_schedules()
-    gantt_of_schedule(schedules, 26, "visualizator_scheduling.png")
-
-#ultimate_test()
