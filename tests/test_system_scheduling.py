@@ -1,7 +1,7 @@
 import pytest
 
-from exceptions import DeadlineMissedException
-from test_functions.scheduling_tests import *
+from model.exceptions import DeadlineMissedException
+from test_utils.scheduling_tests import *
 
 
 def test_get_max_periods_of_tasks():

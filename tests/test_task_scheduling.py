@@ -44,6 +44,7 @@ def test_add_job_deadline_not_same_as_period():
     assert not task_scheduling.jobs[-1].job_executions
 
 
+"""
 def test_is_last_job_finished_one_job_one_exe():
     task = Task(wcet=2, deadline=2, period=3)
     task_scheduling = TaskScheduling(task)
@@ -75,6 +76,7 @@ def test_is_last_job_finished_one_job_two_exe():
     task_scheduling.jobs[-1].start_new_job_execution(5)
     task_scheduling.jobs[-1].add_cpu_unit(1)
     assert task_scheduling.is_last_job_finished()
+"""
 
 
 def test_is_release_time_offset_0():

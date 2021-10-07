@@ -1,6 +1,6 @@
-from audsley import is_task_lowest_priority_viable
-from audsley import make_all_tasks_soft, audsley_recur
-from test_functions.scheduling_tests import *
+from model.audsley import is_task_lowest_priority_viable
+from model.audsley import make_all_tasks_soft, audsley_recur
+from test_utils.scheduling_tests import *
 
 
 def test_make_all_tasks_soft():

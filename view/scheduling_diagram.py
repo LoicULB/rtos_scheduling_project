@@ -110,7 +110,7 @@ def add_legend():
     plt.legend(handles=handles)
 # TODO clean this ugly code
 # TODO use a schedules object
-def gantt_of_schedule(sys_schedules, filename="view/scheduling_outputs/schedugant_diagram.png"):
+def gantt_of_schedule(sys_schedules, filename="outputs/diagrams/schedugant_diagram.png"):
     """Save a png of the gant diagram of the given schedule
 
     Args:

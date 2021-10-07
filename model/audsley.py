@@ -1,9 +1,9 @@
-from exceptions import DeadlineMissedException
+from model.exceptions import DeadlineMissedException
 from model.scheduling import SystemScheduling
 
 
 def is_task_lowest_priority_viable(task_index, tasks):
-    """Checks if the tasks of the pointed by the task index in the tasks list is lower priority viable
+    """Checks if the task pointed by the task index in the tasks list is lower priority viable
 
     Args:
         task_index (int): the task index to check
@@ -12,19 +12,21 @@ def is_task_lowest_priority_viable(task_index, tasks):
         boolean : true if the task is lowest priority viable
     """
     new_tasks_set = tasks.copy()
+
     # assign the lowest priority to the task
     task = new_tasks_set.pop(task_index)
-    task.is_hard = True
     new_tasks_set.append(task)
 
-    # it justs works
-    sys_sched = SystemScheduling(new_tasks_set)
+    task.is_hard = True
+
+    sys_schedule = SystemScheduling(new_tasks_set)
     try:
-        sys_sched.execute_FTP_schedule()
+        sys_schedule.execute_FTP_schedule()
         task.is_hard = False
         return True
     except DeadlineMissedException:
-        task.is_hard = False
+        # TODO : check if assignment not needed
+        #task.is_hard = False
         return False
 
 

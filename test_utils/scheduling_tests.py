@@ -1,5 +1,5 @@
-from test_functions.task_sets import *
 from model.scheduling import SystemScheduling
+from test_utils.task_sets import *
 
 
 def get_scheduling_course_first_exemple():
@@ -27,7 +27,6 @@ def test_scheduling_course_exemple():
     scheduling = get_scheduling_course_first_exemple()
     # scheduling = get_scheduling_course_second_exemple()
     print(str(scheduling))
-    print(scheduling.get_nb_deadline_misses())
 
 # get_scheduling_course_exemple()
 

@@ -4,10 +4,9 @@ This is the main file used to launch the program from the command line
 
 from os import sys
 
-from audsley import audsley_recur
-from exceptions import DeadlineMissedException
+from model.audsley import audsley_recur
+from model.exceptions import DeadlineMissedException
 from model.scheduling import SystemScheduling
-from model.scheduling import get_lcm_tasks_period
 from view.scheduling_diagram import gantt_of_schedule
 from model.task import Task
 
