@@ -4,13 +4,13 @@ This is the main file used to launch the program from the command line
 
 from os import sys
 
+from audsley import audsley_recur
+from audsley import make_all_tasks_soft
+from exceptions import DeadlineMissedException
 from scheduling import SystemScheduling
 from scheduling import get_lcm_tasks_period
 from scheduling_diagram import gantt_of_schedule
-from audsley import audsley_recur
-from audsley import make_all_tasks_soft
 from task import Task
-from exceptions import DeadlineMissedException
 
 
 def parse_input_file(file_path):
@@ -29,6 +29,7 @@ def parse_input_file(file_path):
 
     return task_set
 
+
 def write_output_file(task_set):
     """
     Create the file audsley.txt which contains the FTP assignment that has been found
@@ -36,8 +37,8 @@ def write_output_file(task_set):
     """
 
     with open("audsley.txt", 'w') as output_file:
-       for task in task_set:
-           output_file.write(str(task) + "\n")
+        for task in task_set:
+            output_file.write(str(task) + "\n")
 
 
 if __name__ == "__main__":
@@ -47,14 +48,14 @@ if __name__ == "__main__":
 
     if sys.argv[1] == "scheduler":
         task_set = parse_input_file(sys.argv[2])
-        #make_all_tasks_soft(task_set)
+        # make_all_tasks_soft(task_set)
         scheduling = SystemScheduling(task_set)
-        
+
         try:
             scheduling.execute_FTP_schedule()
         except DeadlineMissedException:
             pass
-        
+
         gantt_of_schedule(scheduling, get_lcm_tasks_period(task_set))
 
     elif sys.argv[1] == "audsley":

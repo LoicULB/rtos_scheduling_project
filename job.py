@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+
 @dataclass
 class JobExecution:
     """Describe a execution block of a job.
@@ -48,8 +49,8 @@ class Job:
             raise Exception("Jobs cannot have more cpu units than it needs")
         return self.cpu_units == self.cpu_need
 
-    #exception if receives cpu_units after its deadline
-    def add_cpu_unit(self, nb_cpu_units = 1):
+    # exception if receives cpu_units after its deadline
+    def add_cpu_unit(self, nb_cpu_units=1):
         """Add a specific number of cpu_units to the last JobExecution of the Job
         Update the cpu_units counter of the Job at the same time
 

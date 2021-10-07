@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
 from numpy import lcm
 from typing import List
+
 from exceptions import DeadlineMissedException
+from job import *
 from task import Task
 from task_sets import *
-from job import *
 
 
 def ftp_rm_schedule(tasks):
@@ -31,8 +32,6 @@ def get_lcm_tasks_period(tasks):
         periods.append(task.period)
 
     return (lcm.reduce(periods))
-
-
 
 
 @dataclass
@@ -87,10 +86,10 @@ class TaskScheduling:
         if not self.is_last_job_finished() and not self.is_deadline_missed(instant):
             if is_same_task_index:
                 # TODO make a def 
-                if not self.jobs[-1].job_executions :
+                if not self.jobs[-1].job_executions:
                     # TODO make a func
                     self.jobs[-1].start_new_job_execution(instant)
-                else: 
+                else:
 
                     self.jobs[-1].add_cpu_unit()
             else:
@@ -135,8 +134,8 @@ class SystemScheduling:
 
     def execute_FTP_schedule(self):
         # TODO change the time limit to the instructions
-        
-        #for i in range(len(tasks)):
+
+        # for i in range(len(tasks)):
         """
         schedules =  []
         for task in self.tasks:
@@ -190,9 +189,6 @@ class SystemScheduling:
     # def print_schedules_in_line(self):
 
 
-
-
-
 def get_scheduling_course_first_exemple():
     tasks = get_first_course_example_schedule()
     scheduling = SystemScheduling(tasks)
@@ -206,11 +202,13 @@ def get_scheduling_course_second_exemple():
     scheduling.execute_FTP_schedule()
     return scheduling
 
+
 def get_scheduling_deadline_missed():
     tasks = get_deadline_missed_example()
     scheduling = SystemScheduling(tasks)
     scheduling.execute_FTP_schedule()
     return scheduling
+
 
 def test_scheduling_course_exemple():
     scheduling = get_scheduling_course_first_exemple()
@@ -218,7 +216,6 @@ def test_scheduling_course_exemple():
     print(str(scheduling))
     print(scheduling.get_nb_deadline_misses())
 
-
 # get_scheduling_course_exemple()
 
-#test_scheduling_course_exemple()
+# test_scheduling_course_exemple()
