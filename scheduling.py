@@ -221,4 +221,4 @@ def test_scheduling_course_exemple():
 
 # get_scheduling_course_exemple()
 
-test_scheduling_course_exemple()
+#test_scheduling_course_exemple()
