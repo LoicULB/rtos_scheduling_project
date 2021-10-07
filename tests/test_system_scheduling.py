@@ -2,6 +2,7 @@ from scheduling import SystemScheduling, get_first_course_example_schedule, get_
 from task import Task
 import pytest
 from scheduling import DeadlineMissedException
+from scheduling import synchronous_arbitrary_task_set
 def test_get_max_periods_of_tasks():
     tasks = get_first_course_example_schedule()
     sys_sched = SystemScheduling(tasks)
@@ -14,6 +15,7 @@ def test_get_max_periods_of_tasks_different():
     tasks = [t1,t2,t3]
     sys_sched = SystemScheduling(tasks)
     assert sys_sched.get_maximum_offset() == 88
+
 def test_no_exception_fc():
     tasks = get_first_course_example_schedule()
     sys_sched = SystemScheduling(tasks)
@@ -48,6 +50,14 @@ def test_raise_deadline_exception_v3():
         #tasks = get_scheduling_deadline_missed()
         sys_sched = SystemScheduling(tasks_set)
         sys_sched.execute_FTP_schedule()
+
+def test_raise_deadline_exception_SAD():
+
+    tasks_set = synchronous_arbitrary_task_set()
+    with pytest.raises(DeadlineMissedException):
+        sys_sched = SystemScheduling(tasks_set)
+        sys_sched.execute_FTP_schedule()
+
 
 # TODO test get feasibility_interval
 
