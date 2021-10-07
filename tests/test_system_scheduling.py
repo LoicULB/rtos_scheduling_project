@@ -15,6 +15,7 @@ def test_get_max_periods_of_tasks_different():
     tasks = [t1,t2,t3]
     sys_sched = SystemScheduling(tasks)
     assert sys_sched.get_maximum_offset() == 88
+
 def test_no_exception_fc():
     tasks = get_first_course_example_schedule()
     sys_sched = SystemScheduling(tasks)

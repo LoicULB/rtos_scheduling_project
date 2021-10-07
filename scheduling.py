@@ -139,6 +139,7 @@ class Job:
 class TaskScheduling:
     task: Task = Task()
     jobs: List[Job] = field(default_factory=list)
+    active_jobs: List[Job] =field(default_factory=list)
 
     """
     def get_deadline_of_next_job(self, start):
@@ -167,11 +168,23 @@ class TaskScheduling:
         # job_exe = [JobExecution(start=inst)]
         job = Job(release_time=instant, cpu_need=self.task.wcet, absolute_deadline=instant + self.task.deadline)
         self.jobs.append(job)
+        self.active_jobs.append(job)
 
     def is_last_job_finished(self):
         if not self.jobs: return True
         return self.jobs[-1].is_finished()
+    
+    def get_first_active_job(self):
+        return self.active_jobs[0]
+    def is_first_active_job_finished(self):
+        return self.active_jobs[0].is_finished()
+    def is_active_jobs_empty(self):
+        return not self.active_jobs
 
+    def feed_first_active_job(self):
+        self.get_first_active_job().add_cpu_unit()
+        if self.is_first_active_job_finished():
+            self.active_jobs.pop(0)
     """
     def is_last_job_interrupted(self, instant):
         if not self.jobs:
@@ -184,17 +197,21 @@ class TaskScheduling:
     def run_task(self, instant, is_same_task_index):
         if not self.jobs:
             return False
-        if not self.is_last_job_finished() and not self.is_deadline_missed(instant):
+        if not self.is_active_jobs_empty() and not self.is_deadline_missed(instant):
             if is_same_task_index:
                 # TODO make a def 
-                if not self.jobs[-1].job_executions :
+                if not self.get_first_active_job().job_executions :
                     # TODO make a func
-                    self.jobs[-1].start_new_job_execution(instant)
+                    self.get_first_active_job().start_new_job_execution(instant)
+                    if self.is_first_active_job_finished():
+                        self.active_jobs.pop(0)
                 else: 
 
-                    self.jobs[-1].add_cpu_unit()
+                    self.feed_first_active_job()
             else:
-                self.jobs[-1].start_new_job_execution(instant)
+                self.get_first_active_job().start_new_job_execution(instant)
+                if self.is_first_active_job_finished():
+                    self.active_jobs.pop(0)
 
             return True
         return False
@@ -207,9 +224,12 @@ class TaskScheduling:
         return arr
 
     def is_deadline_missed(self, instant: int):
-        if not self.jobs:
+        if not self.active_jobs:
             return False
-        return self.jobs[-1].is_deadline_missed(instant)
+        for job in self.active_jobs:
+            if job.is_deadline_missed(instant):
+                return True
+        return False
 
     # TODO write is deadline missed
 
