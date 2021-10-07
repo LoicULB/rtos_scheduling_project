@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 from numpy import lcm
 from typing import List
-
 from exceptions import DeadlineMissedException
 from task import Task
+from job import *
 
 
 def ftp_rm_schedule(tasks):
