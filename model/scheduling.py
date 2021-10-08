@@ -194,6 +194,11 @@ class SystemScheduling:
                     is_task_run = task_scheduling.run_task(i, task_index == last_task_index)
                     if is_task_run:
                         last_task_index = task_index
+                #maybe to supp
+                if task_scheduling.task.is_hard:
+                    if task_scheduling.is_deadline_missed(i+1):
+                        raise DeadlineMissedException(
+                            f"A deadline has been missed at instant {i+1} for task {task_index} ")
 
         self.schedules = schedules
         return schedules

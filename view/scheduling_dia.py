@@ -102,8 +102,17 @@ class SchedulingDiagram:
 
     def set_size_fig(self, width=12, height=4):
         self.fig.set_figwidth(width)
-        self.fig.set_figheight(4)
+        self.fig.set_figheight(height)
 
+    def add_error(self, error_text:str):
+        plt.text(0, (len(self.sys_schedules.tasks) * 2), error_text)
+        """
+        self.fig =
+        self.ax.text(right, top, 'right top',
+                horizontalalignment='right',
+                verticalalignment='top',
+                transform=ax.transAxes)
+        """
     def draw(self):
         self.set_limits_of_graph()
         self.gnt.set_prop_cycle(color=self.colors)

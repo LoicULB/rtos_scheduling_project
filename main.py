@@ -50,12 +50,14 @@ if __name__ == "__main__":
 
         try:
             scheduling.execute_FTP_schedule()
-        except DeadlineMissedException:
-            pass
+            show_scheduling_diagram(scheduling)
+        except DeadlineMissedException as dme:
+            show_scheduling_diagram(scheduling, str(dme))
+
 
 
         #gantt_of_schedule(scheduling)
-        show_scheduling_diagram(scheduling)
+
 
     elif sys.argv[1] == "audsley":
         task_set = parse_input_file(sys.argv[2])
