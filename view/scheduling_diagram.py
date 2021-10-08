@@ -6,6 +6,8 @@ from model.scheduling import SystemScheduling
 
 
 #from ftp_rm_scheduling import get_ftp_rm_schedule
+from view.scheduling_dia import SchedulingDiagram
+
 
 def set_limits_of_graph(sys_schedules : SystemScheduling, graph):
     graph.set_ylim(0, len(sys_schedules.tasks)*2 )
@@ -167,3 +169,7 @@ def gantt_of_schedule(sys_schedules, filename="outputs/diagrams/schedugant_diagr
     plt.savefig(filename)
     plt.show()
     return plt
+
+def show_scheduling_diagram(sys_schedules: SystemScheduling):
+    dia = SchedulingDiagram(sys_schedules)
+    dia.draw()

@@ -7,7 +7,7 @@ from os import sys
 from model.audsley import audsley_recur
 from model.exceptions import DeadlineMissedException
 from model.scheduling import SystemScheduling
-from view.scheduling_diagram import gantt_of_schedule
+from view.scheduling_diagram import gantt_of_schedule, show_scheduling_diagram
 from model.task import Task
 
 
@@ -53,7 +53,9 @@ if __name__ == "__main__":
         except DeadlineMissedException:
             pass
 
-        gantt_of_schedule(scheduling)
+
+        #gantt_of_schedule(scheduling)
+        show_scheduling_diagram(scheduling)
 
     elif sys.argv[1] == "audsley":
         task_set = parse_input_file(sys.argv[2])
