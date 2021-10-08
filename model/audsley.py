@@ -39,6 +39,14 @@ def make_all_tasks_soft(tasks):
     for task in tasks:
         task.is_hard = False
 
+def make_all_tasks_hard(tasks):
+    """
+    Make all tasks from the task set hard (used only for tests)
+    :param tasks: the task
+    :return: nothing
+    """
+    for task in tasks:
+        task.is_hard = True
 
 def audsley_recur(tasks, leftover_tasks):
     """Find a FTP schedulable priority assignement for task set "tasks".

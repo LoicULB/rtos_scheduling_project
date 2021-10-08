@@ -1,6 +1,7 @@
-from model.audsley import is_task_lowest_priority_viable
+from model.audsley import is_task_lowest_priority_viable, make_all_tasks_hard
 from model.audsley import make_all_tasks_soft, audsley_recur
 from test_utils.scheduling_tests import *
+from test_utils.task_sets import synchronous_arbitrary_task_set
 
 
 def test_make_all_tasks_soft():
@@ -74,3 +75,15 @@ def test_audsley_deadlines_misses_example():
     task_set = get_deadline_missed_example()
     make_all_tasks_soft(task_set)
     assert not audsley_recur(task_set, task_set.copy())
+
+def test_audsley_SAD():
+    task_set = synchronous_arbitrary_task_set()
+    expected_task_set = task_set.copy()
+    task = expected_task_set.pop(0)
+    expected_task_set.append(task)
+    make_all_tasks_soft(task_set)
+    assert audsley_recur(task_set, task_set.copy())
+    make_all_tasks_hard(task_set)
+    assert task_set == expected_task_set
+    sys_schedule = SystemScheduling(task_set)
+    sys_schedule.execute_FTP_schedule()
