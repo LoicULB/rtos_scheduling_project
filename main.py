@@ -7,7 +7,7 @@ from os import sys
 from model.audsley import audsley
 from model.exceptions import DeadlineMissedException
 from model.scheduling import SystemScheduling
-from view.scheduling_diagram import gantt_of_schedule, show_scheduling_diagram
+from view.scheduling_diagram import show_scheduling_diagram
 from model.task import Task
 
 
