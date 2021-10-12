@@ -196,7 +196,7 @@ class SystemScheduling:
                     if task_scheduling.is_deadline_missed(i+1):
                         self.feasibility_interval = i+10
                         raise DeadlineMissedException(
-                            f"A deadline has been missed at instant {i+1} for task {task_index} ")
+                            f"A deadline has been missed at instant {i+1} for task {task_index+1} ")
 
         self.schedules = schedules
         return schedules
