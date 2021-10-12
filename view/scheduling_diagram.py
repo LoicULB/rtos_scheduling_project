@@ -170,7 +170,7 @@ def gantt_of_schedule(sys_schedules, filename="outputs/diagrams/schedugant_diagr
     plt.show()
     return plt
 
-def show_scheduling_diagram(sys_schedules: SystemScheduling, error_text : ""):
+def show_scheduling_diagram(sys_schedules: SystemScheduling, error_text = ""):
     dia = SchedulingDiagram(sys_schedules)
     if error_text:
         dia.add_error(error_text)

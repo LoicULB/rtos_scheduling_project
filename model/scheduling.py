@@ -183,10 +183,7 @@ class SystemScheduling:
             for task_index in range(len(self.tasks)):
                 task_scheduling = schedules[task_index]
 
-                if task_scheduling.task.is_hard:
-                    if task_scheduling.is_deadline_missed(i):
-                        raise DeadlineMissedException(
-                            f"A deadline has been missed at instant {i} for task {task_index} ")
+
 
                 if task_scheduling.is_release_time(i):
                     task_scheduling.add_job(i)
@@ -197,6 +194,7 @@ class SystemScheduling:
                 #maybe to supp
                 if task_scheduling.task.is_hard:
                     if task_scheduling.is_deadline_missed(i+1):
+                        self.feasibility_interval = i+10
                         raise DeadlineMissedException(
                             f"A deadline has been missed at instant {i+1} for task {task_index} ")
 

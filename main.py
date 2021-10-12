@@ -4,11 +4,12 @@ This is the main file used to launch the program from the command line
 
 from os import sys
 
-from model.audsley import audsley_recur
+from model.audsley import audsley
 from model.exceptions import DeadlineMissedException
 from model.scheduling import SystemScheduling
 from view.scheduling_diagram import gantt_of_schedule, show_scheduling_diagram
 from model.task import Task
+
 
 
 def parse_input_file(file_path):
@@ -55,14 +56,12 @@ if __name__ == "__main__":
             show_scheduling_diagram(scheduling, str(dme))
 
 
-
-        #gantt_of_schedule(scheduling)
-
-
     elif sys.argv[1] == "audsley":
         task_set = parse_input_file(sys.argv[2])
-        audsley_recur(task_set, task_set.copy())
-        write_output_file(task_set)
+        if audsley(task_set):
+            write_output_file(task_set)
+        else :
+            sys.exit("The given task-set has no FTP feasible assignement")
 
     else:
         sys.exit("The second argument must be either 'scheduler' or 'audsley'.")

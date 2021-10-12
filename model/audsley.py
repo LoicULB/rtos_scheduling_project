@@ -47,6 +47,14 @@ def make_all_tasks_hard(tasks):
     """
     for task in tasks:
         task.is_hard = True
+def audsley(tasks):
+    sys_schedules = SystemScheduling(tasks)
+    try:
+        sys_schedules.execute_FTP_schedule()
+        return True
+    except DeadlineMissedException as dme:
+        audsley_recur(tasks, tasks.copy())
+        return False
 
 def audsley_recur(tasks, leftover_tasks):
     """Find a FTP schedulable priority assignement for task set "tasks".
