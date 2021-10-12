@@ -42,6 +42,7 @@ class SchedulingDiagram:
         ticks = []
         labels = []
         for i in range(tasks_len):
+        #for i in range(tasks_len-1, -1, -1):
             ticks.append((i * 2))
             labels.append(i + 1)
         self.gnt.set_yticks(ticks)
@@ -86,7 +87,7 @@ class SchedulingDiagram:
             self.draw_job( job, color, task_index)
 
     def draw_system_scheduling(self):
-        for i, schedule in enumerate(reversed(self.sys_schedules.schedules)):
+        for i, schedule in enumerate(self.sys_schedules.schedules):
 
             self.draw_task_scheduling(schedule, self.colors[i], i)
             self.draw_periods_for_task(i, schedule.task, self.colors[i],
@@ -116,6 +117,7 @@ class SchedulingDiagram:
         self.gnt.grid(True)
         self.draw_system_scheduling()
         self.add_legend()
+        self.fig.canvas.manager.set_window_title('mon titre')
 
         plt.show()
 
