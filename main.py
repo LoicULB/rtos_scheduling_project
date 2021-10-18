@@ -61,7 +61,7 @@ if __name__ == "__main__":
         if audsley(task_set):
             write_output_file(task_set)
         else :
-            sys.exit("The given task-set has no FTP feasible assignement")
+            sys.exit("The given task-set has no feasible FTP assignement !")
 
     else:
         sys.exit("The second argument must be either 'scheduler' or 'audsley'.")
