@@ -33,7 +33,7 @@ class Job:
     absolute_deadline: int = 0
     cpu_units: int = 0
     cpu_need: int = 0
-    job_executions: list[int] = field(default_factory=list)
+    job_executions: list = field(default_factory=list)
 
     def is_finished(self):
         """Tells whether or not the current Job has consume all of it's CPU need (wcet)
