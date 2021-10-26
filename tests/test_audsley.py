@@ -2,7 +2,7 @@ from model.audsley import is_task_lowest_priority_viable, make_all_tasks_hard
 from model.audsley import make_all_tasks_soft, audsley_recur
 from test_utils.scheduling_tests import *
 from test_utils.task_sets import synchronous_arbitrary_task_set
-
+from model.audsley import  audsley
 
 def test_make_all_tasks_soft():
     task_set = get_first_course_example_schedule()
@@ -87,3 +87,19 @@ def test_audsley_SAD():
     assert task_set == expected_task_set
     sys_schedule = SystemScheduling(task_set)
     sys_schedule.execute_FTP_schedule()
+
+def test_AID_schedulable_feasible():
+    task_set = asynchronous_implicit_deadline_task_set()
+    assert audsley(task_set)
+
+def test_AID_unschedulable_feasible():
+    task_set = asynchronous_implicit_deadline_task_set_unschedulable()
+    assert audsley(task_set)
+
+def test_AID_V2_schedulable_feasible():
+    task_set = AID_V2_schedulable()
+    assert audsley(task_set)
+
+def test_AID_V2_unschedulable_feasible():
+    task_set = AID_V2_unschedulable()
+    assert audsley(task_set)
