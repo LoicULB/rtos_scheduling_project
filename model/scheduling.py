@@ -54,6 +54,9 @@ class TaskScheduling:
         Returns:
             bool: true if the time 'instant' is a release time
         """
+
+        if(instant < self.task.offset):
+            return False
         return (instant - self.task.offset) % self.task.period == 0
 
     def add_job(self, instant: int):
@@ -183,15 +186,12 @@ class SystemScheduling:
             for task_index in range(len(self.tasks)):
                 task_scheduling = schedules[task_index]
 
-
-
                 if task_scheduling.is_release_time(i):
                     task_scheduling.add_job(i)
                 if not is_task_run:
                     is_task_run = task_scheduling.run_task(i, task_index == last_task_index)
                     if is_task_run:
                         last_task_index = task_index
-                #maybe to supp
                 if task_scheduling.task.is_hard:
                     if task_scheduling.is_deadline_missed(i+1):
                         self.feasibility_interval = i+10
