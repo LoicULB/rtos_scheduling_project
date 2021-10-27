@@ -103,3 +103,22 @@ def test_AID_V2_schedulable_feasible():
 def test_AID_V2_unschedulable_feasible():
     task_set = AID_V2_unschedulable()
     assert audsley(task_set)
+
+def test_sachabad_audsley():
+    task_set = sacha_bad_audsley()
+    assert audsley(task_set)
+
+def test_sachabad_audsley_already_schedulable():
+    task_set = sacha_bad_audsley()
+    task = task_set.pop(-1)
+    task_set.insert(0, task)
+    assert audsley(task_set)
+
+def test_is_SBA_t1_lowest_priority_viable():
+    task_set = sacha_bad_audsley()
+    task  = task_set[0]
+    assert is_task_lowest_priority_viable(0, task_set)
+
+def test_is_SBA_t2_lowest_priority_viable():
+    task_set = sacha_bad_audsley()
+    assert is_task_lowest_priority_viable(1, task_set)

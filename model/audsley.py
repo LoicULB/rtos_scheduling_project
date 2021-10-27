@@ -12,7 +12,7 @@ def is_task_lowest_priority_viable(task_index, tasks):
         boolean : true if the task is lowest priority viable
     """
     new_tasks_set = tasks.copy()
-
+    make_all_tasks_soft(new_tasks_set)
     # assign the lowest priority to the task
     task = new_tasks_set.pop(task_index)
     new_tasks_set.append(task)
@@ -22,11 +22,9 @@ def is_task_lowest_priority_viable(task_index, tasks):
     sys_schedule = SystemScheduling(new_tasks_set)
     try:
         sys_schedule.execute_FTP_schedule()
-        task.is_hard = False
+        #task.is_hard = False
         return True
     except DeadlineMissedException:
-        # TODO : check if assignment not needed
-        #task.is_hard = False
         return False
 
 
