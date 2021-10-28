@@ -61,6 +61,11 @@ def test_no_raise_deadline_exception_SAD_inverted():
     sys_sched = SystemScheduling(tasks_set)
     sys_sched.execute_FTP_schedule()
 
+def test_asynchronous_arbitrary():
+    tasks_set = asynchronous_arbitrary_task_set()
+    sys_sched = SystemScheduling(tasks_set)
+    sys_sched.execute_FTP_schedule()
+
 # TODO test get feasibility_interval
 def test_asynchronous_implicit_deadline_task_set():
     tasks_set = asynchronous_implicit_deadline_task_set()

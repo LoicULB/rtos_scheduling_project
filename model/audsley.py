@@ -17,12 +17,12 @@ def is_task_lowest_priority_viable(task_index, tasks):
     task = new_tasks_set.pop(task_index)
     new_tasks_set.append(task)
 
+    # The lowest priority task must be hard real-time
     task.is_hard = True
 
     sys_schedule = SystemScheduling(new_tasks_set)
     try:
         sys_schedule.execute_FTP_schedule()
-        #task.is_hard = False
         return True
     except DeadlineMissedException:
         return False
@@ -37,6 +37,7 @@ def make_all_tasks_soft(tasks):
     for task in tasks:
         task.is_hard = False
 
+
 def make_all_tasks_hard(tasks):
     """
     Make all tasks from the task set hard (used only for tests)
@@ -45,6 +46,8 @@ def make_all_tasks_hard(tasks):
     """
     for task in tasks:
         task.is_hard = True
+
+
 def audsley(tasks):
     sys_schedules = SystemScheduling(tasks)
     try:

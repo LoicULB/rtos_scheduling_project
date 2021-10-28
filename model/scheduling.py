@@ -55,7 +55,7 @@ class TaskScheduling:
             bool: true if the time 'instant' is a release time
         """
 
-        if(instant < self.task.offset):
+        if (instant < self.task.offset):
             return False
         return (instant - self.task.offset) % self.task.period == 0
 
@@ -192,11 +192,12 @@ class SystemScheduling:
                     is_task_run = task_scheduling.run_task(i, task_index == last_task_index)
                     if is_task_run:
                         last_task_index = task_index
+                # maybe to supp
                 if task_scheduling.task.is_hard:
-                    if task_scheduling.is_deadline_missed(i+1):
-                        self.feasibility_interval = i+10
+                    if task_scheduling.is_deadline_missed(i + 1):
+                        self.feasibility_interval = i + 10
                         raise DeadlineMissedException(
-                            f"A deadline has been missed at instant {i+1} for task {task_index+1} ")
+                            f"A deadline has been missed at instant {i + 1} for task {task_index + 1} ")
 
         self.schedules = schedules
         return schedules
