@@ -113,7 +113,11 @@ def test_sachabad_audsley_already_schedulable():
     task = task_set.pop(-1)
     task_set.insert(0, task)
     assert audsley(task_set)
-
+def test_sachabad_audsley_vincent_order_schedulable():
+    task_set = sacha_bad_audsley()
+    task = task_set.pop(1)
+    task_set.append(task)
+    assert  audsley(task_set)
 def test_is_SBA_t1_lowest_priority_viable():
     task_set = sacha_bad_audsley()
     task  = task_set[0]
