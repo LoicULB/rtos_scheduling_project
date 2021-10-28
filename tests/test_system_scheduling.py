@@ -54,6 +54,7 @@ def test_raise_deadline_exception_SAD():
         sys_sched = SystemScheduling(tasks_set)
         sys_sched.execute_FTP_schedule()
 
+
 def test_no_raise_deadline_exception_SAD_inverted():
     tasks_set = synchronous_arbitrary_task_set()
     task = tasks_set.pop(0)
@@ -61,16 +62,18 @@ def test_no_raise_deadline_exception_SAD_inverted():
     sys_sched = SystemScheduling(tasks_set)
     sys_sched.execute_FTP_schedule()
 
+
 def test_asynchronous_arbitrary():
     tasks_set = asynchronous_arbitrary_task_set()
     sys_sched = SystemScheduling(tasks_set)
     sys_sched.execute_FTP_schedule()
 
-# TODO test get feasibility_interval
+
 def test_asynchronous_implicit_deadline_task_set():
     tasks_set = asynchronous_implicit_deadline_task_set()
     sys_sched = SystemScheduling(tasks_set)
     sys_sched.execute_FTP_schedule()
+
 
 def test_asynchronous_implicit_deadline_task_set_unschedulable():
     tasks_set = asynchronous_implicit_deadline_task_set_unschedulable()
@@ -78,11 +81,13 @@ def test_asynchronous_implicit_deadline_task_set_unschedulable():
     with pytest.raises(DeadlineMissedException):
         sys_sched.execute_FTP_schedule()
 
+
 def test_AID_V2_unschedulable():
     tasks_set = AID_V2_unschedulable()
     sys_sched = SystemScheduling(tasks_set)
     with pytest.raises(DeadlineMissedException):
         sys_sched.execute_FTP_schedule()
+
 
 def test_AID_V2_schedulable():
     tasks_set = AID_V2_schedulable()
