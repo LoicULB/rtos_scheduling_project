@@ -121,8 +121,32 @@ def test_sachabad_audsley_vincent_order_schedulable():
 def test_is_SBA_t1_lowest_priority_viable():
     task_set = sacha_bad_audsley()
     task  = task_set[0]
-    assert is_task_lowest_priority_viable(0, task_set)
+    assert not is_task_lowest_priority_viable(0, task_set)
 
 def test_is_SBA_t2_lowest_priority_viable():
     task_set = sacha_bad_audsley()
-    assert is_task_lowest_priority_viable(1, task_set)
+    assert  is_task_lowest_priority_viable(1, task_set)
+
+def test_last_time_hahaha():
+    t1 = Task(50, 20, 50, 50)
+    t2 = Task(0, 30, 100, 150)
+    t3 = Task(100, 10, 20, 30)
+    task_set = [t3, t2, t1]
+    assert not is_task_lowest_priority_viable(2, task_set)
+
+def test_last_time_hahaha_JPP():
+    t1 = Task(50, 20, 50, 50)
+    t2 = Task(0, 30, 100, 150)
+    t3 = Task(100, 10, 20, 30)
+    task_set = [t2, t3, t1]
+    assert not is_task_lowest_priority_viable(2, task_set)
+
+def test_last_time_hahaha_JPP():
+    t1 = Task(50, 20, 50, 50)
+    t2 = Task(0, 30, 100, 150)
+    t3 = Task(100, 10, 20, 30)
+    task_set = [t1, t2, t3]
+    assert not is_task_lowest_priority_viable(2, task_set)
+
+
+#def test_is_SBA_t

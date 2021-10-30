@@ -100,7 +100,7 @@ class TaskScheduling:
         """
         if not self.jobs:
             return False
-        if not self.is_active_jobs_empty() and not self.is_deadline_missed(instant):
+        if not self.is_active_jobs_empty():
             if is_same_task_index:
                 # TODO make a def
                 if not self.get_first_active_job().job_executions:

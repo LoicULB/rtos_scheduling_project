@@ -83,3 +83,32 @@ def test_AID_V2_schedulable():
     tasks_set = AID_V2_schedulable()
     sys_sched = SystemScheduling(tasks_set)
     sys_sched.execute_FTP_schedule()
+
+def test_last_minute_bug():
+    t1 = Task(50, 20, 50, 50)
+    t2 = Task(0, 30, 100, 150)
+    t3 = Task(100, 10, 20, 30)
+    task_set =  [t3, t2, t1]
+    sys_sched = SystemScheduling(task_set)
+    with pytest.raises(DeadlineMissedException):
+        sys_sched.execute_FTP_schedule()
+
+def test_last_minute_bug_2():
+    t1 = Task(50, 20, 50, 50)
+    t2 = Task(0, 30, 100, 150)
+    t3 = Task(100, 10, 20, 30)
+    task_set =  [t3, t1, t2]
+    sys_sched = SystemScheduling(task_set)
+    sys_sched.execute_FTP_schedule()
+
+
+def test_handling_of_soft_deadlines():
+    t1 = Task(50, 20, 50, 50)
+    t2 = Task(0, 30, 100, 150)
+    t3 = Task(100, 10, 20, 30)
+    task_set = [t2, t3, t1]
+    t2.is_hard = False
+    t3.is_hard = False
+    sys_sched = SystemScheduling(task_set)
+    with pytest.raises(DeadlineMissedException):
+        sys_sched.execute_FTP_schedule()
