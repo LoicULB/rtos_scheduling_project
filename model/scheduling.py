@@ -107,7 +107,6 @@ class TaskScheduling:
                     if self.is_first_active_job_finished():
                         self.active_jobs.pop(0)
                 else:
-
                     self.feed_first_active_job()
             else:
                 self.get_first_active_job().start_new_job_execution(instant)
@@ -186,14 +185,15 @@ class SystemScheduling:
 
                 if task_scheduling.is_release_time(i):
                     task_scheduling.add_job(i)
+
                 if not is_task_run:
                     is_task_run = task_scheduling.run_task(i, task_index == last_task_index)
                     if is_task_run:
                         last_task_index = task_index
-                # maybe to supp
+
                 if task_scheduling.task.is_hard:
                     if task_scheduling.is_deadline_missed(i + 1):
-                        self.feasibility_interval = i + 10
+                        #self.feasibility_interval = i + 10
                         raise DeadlineMissedException(
                             f"A deadline has been missed at instant {i + 1} for task {task_index + 1} ")
 
