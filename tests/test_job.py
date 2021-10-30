@@ -56,25 +56,6 @@ def test_is_finished():
     assert job.is_finished()
 
 
-"""
-def test_get_end_of_job_with_one_exe():
-    job = Job(cpu_need=2)
-    job.start_new_job_execution(start=0)
-    job.add_cpu_unit()
-    assert job.get_end_of_job()==2
-"""
-"""
-def test_get_end_of_job_with_two_exe():
-    job = Job(cpu_need=2)
-    job.start_new_job_execution(start=0)
-    job.add_cpu_unit()
-    assert job.get_end_of_job()==2
-    job.start_new_job_execution(start=2)
-    job.add_cpu_unit()
-    assert job.get_end_of_job()==4
-"""
-
-
 def test_is_deadline_missed():
     job = Job(release_time=0, absolute_deadline=5, cpu_units=0, cpu_need=3)
     assert not job.is_deadline_missed(0)
