@@ -23,7 +23,6 @@ def is_task_lowest_priority_viable(task_index, tasks):
     sys_schedule = SystemScheduling(new_tasks_set)
     try:
         sys_schedule.execute_FTP_schedule()
-        #task.is_hard = False
         return True
     except DeadlineMissedException:
         return False
