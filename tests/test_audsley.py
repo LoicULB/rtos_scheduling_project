@@ -133,7 +133,7 @@ def test_sachabad_audsley_vincent_order_schedulable():
 def test_is_SBA_t1_lowest_priority_viable():
     task_set = sacha_bad_audsley()
     task = task_set[0]
-    assert is_task_lowest_priority_viable(0, task_set)
+    assert not is_task_lowest_priority_viable(0, task_set)
 
 
 def test_is_SBA_t2_lowest_priority_viable():
