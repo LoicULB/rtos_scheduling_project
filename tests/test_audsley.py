@@ -1,8 +1,9 @@
+from model.audsley import audsley
 from model.audsley import is_task_lowest_priority_viable, make_all_tasks_hard
 from model.audsley import make_all_tasks_soft, audsley_recur
 from test_utils.scheduling_tests import *
 from test_utils.task_sets import synchronous_arbitrary_task_set
-from model.audsley import  audsley
+
 
 def test_make_all_tasks_soft():
     task_set = get_first_course_example_schedule()
@@ -76,6 +77,7 @@ def test_audsley_deadlines_misses_example():
     make_all_tasks_soft(task_set)
     assert not audsley_recur(task_set, task_set.copy())
 
+
 def test_audsley_SAD():
     task_set = synchronous_arbitrary_task_set()
     expected_task_set = task_set.copy()
@@ -88,40 +90,51 @@ def test_audsley_SAD():
     sys_schedule = SystemScheduling(task_set)
     sys_schedule.execute_FTP_schedule()
 
+
 def test_AID_schedulable_feasible():
     task_set = asynchronous_implicit_deadline_task_set()
     assert audsley(task_set)
+
 
 def test_AID_unschedulable_feasible():
     task_set = asynchronous_implicit_deadline_task_set_unschedulable()
     assert audsley(task_set)
 
+
 def test_AID_V2_schedulable_feasible():
     task_set = AID_V2_schedulable()
     assert audsley(task_set)
+
 
 def test_AID_V2_unschedulable_feasible():
     task_set = AID_V2_unschedulable()
     assert audsley(task_set)
 
+
 def test_sachabad_audsley():
     task_set = sacha_bad_audsley()
     assert audsley(task_set)
+
 
 def test_sachabad_audsley_already_schedulable():
     task_set = sacha_bad_audsley()
     task = task_set.pop(-1)
     task_set.insert(0, task)
     assert audsley(task_set)
+
+
 def test_sachabad_audsley_vincent_order_schedulable():
     task_set = sacha_bad_audsley()
     task = task_set.pop(1)
     task_set.append(task)
-    assert  audsley(task_set)
+    assert audsley(task_set)
+
+
 def test_is_SBA_t1_lowest_priority_viable():
     task_set = sacha_bad_audsley()
-    task  = task_set[0]
+    task = task_set[0]
     assert is_task_lowest_priority_viable(0, task_set)
+
 
 def test_is_SBA_t2_lowest_priority_viable():
     task_set = sacha_bad_audsley()
