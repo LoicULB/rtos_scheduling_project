@@ -13,7 +13,7 @@ def is_task_lowest_priority_viable(task_index, tasks):
     """
     new_tasks_set = tasks.copy()
     make_all_tasks_soft(new_tasks_set)
-    # assign the lowest priority to the task
+    # Assign the lowest priority to the task
     task = new_tasks_set.pop(task_index)
     new_tasks_set.append(task)
 
@@ -23,6 +23,7 @@ def is_task_lowest_priority_viable(task_index, tasks):
     sys_schedule = SystemScheduling(new_tasks_set)
     try:
         sys_schedule.execute_FTP_schedule()
+        #task.is_hard = False
         return True
     except DeadlineMissedException:
         return False
@@ -50,10 +51,12 @@ def make_all_tasks_hard(tasks):
 
 def audsley(tasks):
     sys_schedules = SystemScheduling(tasks)
+
+    # We don't use Audsley if the given assignent is already schedulable
     try:
         sys_schedules.execute_FTP_schedule()
         return True
-    except DeadlineMissedException as dme:
+    except DeadlineMissedException:
         return audsley_recur(tasks, tasks.copy())
 
 
