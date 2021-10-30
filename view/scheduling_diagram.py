@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
-from matplotlib.ticker import MultipleLocator
 from matplotlib.lines import Line2D
+from matplotlib.ticker import MultipleLocator
+
 from model.scheduling import SystemScheduling
 
 
@@ -10,12 +11,11 @@ class SchedulingDiagram:
     Class used to instanciate a Scheduling Gant Diagram
     """
 
-
-    def __init__(self, sys_schedules: SystemScheduling, limit=-1, colors_class = "tab10"):
+    def __init__(self, sys_schedules: SystemScheduling, limit=-1, colors_class="tab10"):
         self.sys_schedules = sys_schedules
-        if limit == -1 :
+        if limit == -1:
             self.feasibility_interval = sys_schedules.feasibility_interval
-        else :
+        else:
             self.feasibility_interval = limit
         self.fig, self.gnt = plt.subplots()
         self.colors = self.get_list_of_colors(colors_class)
@@ -27,8 +27,8 @@ class SchedulingDiagram:
         :return: a list of colors
         """
         name = colors_class
-        cmap = get_cmap(name)  # type: matplotlib.colors.ListedColormap
-        return cmap.colors  # type: list
+        cmap = get_cmap(name)
+        return cmap.colors
 
     def set_limits_of_graph(self):
         """
@@ -51,7 +51,7 @@ class SchedulingDiagram:
         Set the minor ticks of the x axis
         :return: none
         """
-        self.gnt.xaxis.set_minor_locator(MultipleLocator((self.feasibility_interval/10)+1))
+        self.gnt.xaxis.set_minor_locator(MultipleLocator((self.feasibility_interval / 10) + 1))
 
     def set_y_ticks(self):
         """
@@ -67,7 +67,7 @@ class SchedulingDiagram:
         self.gnt.set_yticks(ticks)
         self.gnt.set_yticklabels(labels)
 
-    def draw_periods_for_task(self,task_index, task, color, len_tasks):
+    def draw_periods_for_task(self, task_index, task, color, len_tasks):
         """
         Draw the vertical lines describing the periods of the tasks
         :param task_index: the index of the task to draw the period
@@ -82,7 +82,7 @@ class SchedulingDiagram:
             max_i = 1 - ((task_index) * (1 / tasks_len))
             min_i = max_i - 1 / tasks_len
             self.gnt.axvline(x=i, ymin=min_i, ymax=max_i,
-                        color=color, linewidth=4, alpha=0.50)
+                             color=color, linewidth=4, alpha=0.50)
 
     def draw_deadline_task(self, task_index, task, color, len_tasks):
         """
@@ -99,23 +99,7 @@ class SchedulingDiagram:
             max_i = 1 - ((task_index) * (1 / tasks_len))
             min_i = max_i - 1 / tasks_len
             self.gnt.axvline(x=i, ymin=min_i, ymax=max_i,
-                    color=color, linestyle="--", linewidth=4)
-
-    def draw_job_execution(self, job_execution, color, task_index, is_deadline_missed):
-        """
-        Draw the given job execution in the graph
-        :param job_execution: the job execution to draw
-        :param color: the color of the task of the job execution
-        :param task_index: the index of the task
-        :param is_deadline_missed: tells if the deadline of this job execution is missed
-        :return: None
-        """
-        job_exe_t = job_execution.get_as_tuple()
-        if is_deadline_missed:
-            self.gnt.broken_barh([job_exe_t], (task_index * 2, 1), facecolors=color, hatch='/', alpha=0.5, edgecolor='black',
-                            linewidth=4)
-        else:
-            self.gnt.broken_barh([job_exe_t], (task_index * 2, 1), facecolors=color, edgecolor='black', linewidth=2)
+                             color=color, linestyle="--", linewidth=4)
 
     def draw_job(self, job, color, task_index):
         """
@@ -130,7 +114,24 @@ class SchedulingDiagram:
         for job_exe in job.job_executions:
             self.draw_job_execution(job_exe, color, task_index, is_deadline_missed)
 
-    def draw_task_scheduling(self,task, color, task_index):
+    def draw_job_execution(self, job_execution, color, task_index, is_deadline_missed):
+        """
+        Draw the given job execution in the graph
+        :param job_execution: the job execution to draw
+        :param color: the color of the task of the job execution
+        :param task_index: the index of the task
+        :param is_deadline_missed: tells if the deadline of this job execution is missed
+        :return: None
+        """
+        job_exe_t = job_execution.get_as_tuple()
+        if is_deadline_missed:
+            self.gnt.broken_barh([job_exe_t], (task_index * 2, 1), facecolors=color, hatch='/', alpha=0.5,
+                                 edgecolor='black',
+                                 linewidth=4)
+        else:
+            self.gnt.broken_barh([job_exe_t], (task_index * 2, 1), facecolors=color, edgecolor='black', linewidth=2)
+
+    def draw_task_scheduling(self, task, color, task_index):
         """
         Draw the scheduling of a given task
         :param task: the task to draw
@@ -139,7 +140,7 @@ class SchedulingDiagram:
         :return: None
         """
         for job in task.jobs:
-            self.draw_job( job, color, task_index)
+            self.draw_job(job, color, task_index)
 
     def draw_system_scheduling(self):
         """
@@ -147,10 +148,9 @@ class SchedulingDiagram:
         :return: None
         """
         for i, schedule in enumerate(self.sys_schedules.schedules):
-
             self.draw_task_scheduling(schedule, self.colors[i], i)
             self.draw_periods_for_task(i, schedule.task, self.colors[i],
-                                  len(self.sys_schedules.tasks))
+                                       len(self.sys_schedules.tasks))
             self.draw_deadline_task(i, schedule.task, self.colors[i], len(self.sys_schedules.tasks))
 
     def add_legend(self):
@@ -174,7 +174,7 @@ class SchedulingDiagram:
         self.fig.set_figwidth(width)
         self.fig.set_figheight(height)
 
-    def add_error(self, error_text:str):
+    def add_error(self, error_text: str):
         """
         Add an error message
         :param error_text: the text to display as error message
@@ -200,7 +200,7 @@ class SchedulingDiagram:
         plt.show()
 
 
-def show_scheduling_diagram(sys_schedules: SystemScheduling, error_text = ""):
+def show_scheduling_diagram(sys_schedules: SystemScheduling, error_text=""):
     """
     Show the scheduling diagram of the system schedules given in parameter
     :param sys_schedules: the System Scheduling to draw and show the diagram
